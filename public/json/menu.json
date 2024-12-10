@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Dashboard",
+    "icon": "/custom-icons/dashboard.svg",
+    "path": "/"
+  },
+  {
+    "title": "E-Commerce",
+    "icon": "/custom-icons/e-commerce.svg",
+    "submenu": [
+      { "title": "Product", "path": "/product" },
+      { "title": "Categories", "path": "/categories" },
+      { "title": "Orders", "path": "/orders" },
+      { "title": "Customer", "path": "/customer" }
+    ]
+  },
+  {
+    "title": "Project",
+    "icon": "/custom-icons/project.svg",
+    "path": "/project"
+  },
+  {
+    "title": "Contact",
+    "icon": "/custom-icons/contact.svg",
+    "path": "/contact"
+  },
+  {
+    "title": "File Manager",
+    "icon": "/custom-icons/file-manager.svg",
+    "path": "/file-manager"
+  },
+  {
+    "title": "Chat",
+    "icon": "/custom-icons/chat.svg",
+    "path": "/chat"
+  },
+  {
+    "title": "Calendar",
+    "icon": "/custom-icons/calendar.svg",
+    "path": "/calendar"
+  }
+]

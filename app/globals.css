@@ -3,19 +3,127 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Theme Colors */
+  --background: #fbfbfb;
+  --foreground: #0f1016;
+
+  /* Typography */
+  --primaryfont: "Public Sans";
+  --regular: 400;
+  --medium: 500;
+  --semibold: 600;
+  --bold: 700;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f1016;
+    --foreground: #fbfbfb;
   }
 }
 
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-Italic.woff2") format("woff2");
+  font-weight: var(--regular);
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-Bold.woff2") format("woff2");
+  font-weight: var(--bolds);
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-BoldItalic.woff2") format("woff2");
+  font-weight: var(--bold);
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-Medium.woff2") format("woff2");
+  font-weight: var(--medium);
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-MediumItalic.woff2") format("woff2");
+  font-weight: var(--medium);
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-Regular.woff2") format("woff2");
+  font-weight: var(--regular);
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-SemiBoldItalic.woff2") format("woff2");
+  font-weight: var(--semibold);
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: var(--primaryfont);
+  src: url("/fonts/PublicSans-SemiBold.woff2") format("woff2");
+  font-weight: var(--semibold);
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
+  @apply font-sans;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-semibold;
+  }
+
+  h1,
+  .h1 {
+    @apply text-3xl;
+  }
+  h2,
+  .h2 {
+    @apply text-2xl;
+  }
+  h3,
+  .h3 {
+    @apply text-xl;
+  }
+  h4,
+  .h4 {
+    @apply text-lg;
+  }
+  h5,
+  .h5 {
+    @apply text-base;
+  }
+  h6,
+  .h6 {
+    @apply text-sm;
+  }
 }
