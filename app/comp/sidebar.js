@@ -63,13 +63,13 @@ export default function Sidebar() {
                     ? toggleSubmenu(index)
                     : navigateTo(menuItem.path || "/")
                 }
-                className={`cursor-pointer duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:bg-transparent before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
+                className={`cursor-pointer duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
                   openSubmenuIndex === index ? "bg-[#EAF8FF]" : ""
                 } ${
                   pathname === menuItem.path
                     ? "bg-[#EAF8FF] before:bg-[#2086BF]"
                     : ""
-                }`}
+                } `}
               >
                 <Image
                   src={menuItem.icon}
@@ -93,7 +93,7 @@ export default function Sidebar() {
                     <li key={subIndex}>
                       <a
                         onClick={() => navigateTo(subItem.path || "/", true)}
-                        className={`cursor-pointer duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:bg-transparent before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
+                        className={`cursor-pointer duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
                           pathname === subItem.path
                             ? "bg-[#EAF8FF] before:bg-[#2086BF]"
                             : ""
