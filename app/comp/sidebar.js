@@ -16,6 +16,17 @@ export default function Sidebar() {
       const response = await fetch("/json/menu.json");
       const data = await response.json();
       setMenuItems(data);
+
+      // Checking if any submenu item is active and set the submenu index
+      const activeIndex = data.findIndex(
+        (menuItem) =>
+          menuItem.submenu &&
+          menuItem.submenu.some((subItem) => subItem.path === pathname)
+      );
+      if (activeIndex !== -1) {
+        setOpenSubmenuIndex(activeIndex);
+        localStorage.setItem("openSubmenuIndex", activeIndex);
+      }
     };
 
     fetchMenuItems();
@@ -25,7 +36,7 @@ export default function Sidebar() {
     if (savedSubmenuIndex) {
       setOpenSubmenuIndex(Number(savedSubmenuIndex));
     }
-  }, []);
+  }, [pathname]);
 
   // Toggle submenu visibility
   const toggleSubmenu = (index) => {
@@ -54,72 +65,83 @@ export default function Sidebar() {
       </div>
       <div className="py-4">
         <ul className="flex flex-col gap-2">
-          {menuItems.map((menuItem, index) => (
-            <li key={index}>
-              {/* Main menu item */}
-              <a
-                onClick={() =>
-                  menuItem.submenu
-                    ? toggleSubmenu(index)
-                    : navigateTo(menuItem.path || "/")
-                }
-                className={`cursor-pointer duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
-                  openSubmenuIndex === index ? "bg-[#EAF8FF]" : ""
-                } ${
-                  pathname === menuItem.path
-                    ? "bg-[#EAF8FF] before:bg-[#2086BF]"
-                    : ""
-                } `}
-              >
-                <Image
-                  src={menuItem.icon}
-                  alt={`${menuItem.title} Icon`}
-                  width={24}
-                  height={24}
-                />
-                {menuItem.title}
+          {menuItems.map((menuItem, index) => {
+            // Determine if the main menu item is active
+            const isActiveMenuItem =
+              pathname === menuItem.path ||
+              (menuItem.submenu &&
+                menuItem.submenu.some((subItem) => pathname === subItem.path));
 
-                {menuItem.submenu && (
+            return (
+              <li key={index}>
+                {/* Main menu item */}
+                <a
+                  onClick={() =>
+                    menuItem.submenu
+                      ? toggleSubmenu(index)
+                      : navigateTo(menuItem.path || "/")
+                  }
+                  className={`group cursor-pointer text-sm font-semibold text-[#4A4C56] hover:text-[#2086BF] duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
+                    openSubmenuIndex === index ? "bg-[#EAF8FF]" : ""
+                  } ${
+                    isActiveMenuItem
+                      ? "bg-[#EAF8FF] before:bg-[#2086BF] text-[#2086BF]"
+                      : ""
+                  }`}
+                >
                   <Image
-                    src="/icons/dropdown.svg"
-                    alt="Dropdown Icon"
-                    className={`absolute right-6 top-2/4 -translate-y-2/4 duration-500 ${
-                      openSubmenuIndex === index ? "-rotate-180" : ""
+                    src={menuItem.icon}
+                    className={`grayscale duration-500 group-hover:grayscale-0 ${
+                      isActiveMenuItem ? "grayscale-0" : ""
                     }`}
+                    alt={`${menuItem.title} Icon`}
                     width={24}
                     height={24}
                   />
-                )}
-              </a>
+                  {menuItem.title}
 
-              {/* Submenu */}
-              {menuItem.submenu && (
-                <ul
-                  className={`flex flex-col gap-1 transition-[max-height] duration-500 ${
-                    openSubmenuIndex === index
-                      ? "max-h-screen"
-                      : "max-h-0 overflow-hidden"
-                  }`}
-                >
-                  {menuItem.submenu.map((subItem, subIndex) => (
-                    <li key={subIndex}>
-                      <a
-                        onClick={() => navigateTo(subItem.path || "/", true)}
-                        className={`cursor-pointer duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
-                          pathname === subItem.path
-                            ? "bg-[#EAF8FF] before:bg-[#2086BF]"
-                            : ""
-                        }`}
-                      >
-                        <span className="w-6"></span>
-                        {subItem.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+                  {menuItem.submenu && (
+                    <Image
+                      src="/icons/dropdown.svg"
+                      alt="Dropdown Icon"
+                      className={`absolute right-6 top-2/4 -translate-y-2/4 duration-500 ${
+                        openSubmenuIndex === index ? "-rotate-180" : ""
+                      }`}
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                </a>
+
+                {/* Submenu */}
+                {menuItem.submenu && (
+                  <ul
+                    className={`flex flex-col gap-1 transition-[max-height] duration-500 ${
+                      openSubmenuIndex === index
+                        ? "max-h-screen"
+                        : "max-h-0 overflow-hidden"
+                    }`}
+                  >
+                    {menuItem.submenu.map((subItem, subIndex) => (
+                      <li key={subIndex}>
+                        <a
+                          onClick={() => navigateTo(subItem.path || "/", true)}
+                          className={`cursor-pointer text-sm font-semibold text-[#4A4C56] hover:text-[#2086BF] duration-500 flex relative items-center gap-2 py-3 px-6 hover:bg-[#EAF8FF] before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:h-full hover:before:bg-[#2086BF] before:duration-500 ${
+                            pathname === subItem.path
+                              ? "bg-[#EAF8FF] before:bg-[#2086BF] text-[#2086BF]"
+                              : ""
+                          }`}
+                        >
+                          <span className="w-6"></span>
+                          {subItem.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </aside>
