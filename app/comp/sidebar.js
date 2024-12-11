@@ -78,6 +78,18 @@ export default function Sidebar() {
                   height={24}
                 />
                 {menuItem.title}
+
+                {menuItem.submenu && (
+                  <Image
+                    src="/icons/dropdown.svg"
+                    alt="Dropdown Icon"
+                    className={`absolute right-6 top-2/4 -translate-y-2/4 duration-500 ${
+                      openSubmenuIndex === index ? "-rotate-180" : ""
+                    }`}
+                    width={24}
+                    height={24}
+                  />
+                )}
               </a>
 
               {/* Submenu */}
