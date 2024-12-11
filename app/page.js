@@ -342,7 +342,7 @@ export default function Dashboard() {
                     </h2>
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-between mt-4">
+                <div className="flex flex-wrap justify-between mt-[14px]">
                   {dashboardData.salesSource.graph.sources.map(
                     (source, index) => (
                       <div
