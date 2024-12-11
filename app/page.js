@@ -43,7 +43,11 @@ export default function Dashboard() {
   }, []);
 
   if (!dashboardData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="p-6">
+        <h2 className="text-center">Loading...</h2>
+      </div>
+    );
   }
 
   // Chart Data for Semi-Circular Progress Chart
@@ -232,9 +236,7 @@ export default function Dashboard() {
               <h3 className="text-xl font-semibold mb-0.5">
                 {dashboardData.statistics.title}
               </h3>
-              <p className="text-sm">
-                {dashboardData.statistics.description}
-              </p>
+              <p className="text-sm">{dashboardData.statistics.description}</p>
               <Line data={lineData} />
             </div>
           </div>
