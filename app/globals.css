@@ -5,7 +5,7 @@
 :root {
   /* Theme Colors */
   --background: #fbfbfb;
-  --foreground: #1D1F2C;
+  --foreground: #1d1f2c;
 
   /* Typography */
   --primaryfont: "Public Sans";
@@ -17,7 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1D1F2C;
+    --background: #1d1f2c;
     --foreground: #fbfbfb;
   }
 }
@@ -125,5 +125,9 @@ body {
   h6,
   .h6 {
     @apply text-sm;
+  }
+
+  p {
+    @apply font-sans text-lg text-[#777980];
   }
 }

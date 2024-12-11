@@ -1,0 +1,66 @@
+{
+  "overview": [
+    {
+      "title": "Total Project",
+      "icon": "/custom-icons/total-projects.svg",
+      "value": "6,784",
+      "meta": { "percentage": "-20", "change": "+$150 today" }
+    },
+    {
+      "title": "In Progress",
+      "icon": "/custom-icons/in-progress.svg",
+      "value": "1,920",
+      "meta": { "percentage": "10", "change": "+$150 today" }
+    },
+    {
+      "title": "Finished",
+      "icon": "/custom-icons/finished.svg",
+      "value": "4,412",
+      "meta": { "percentage": "10", "change": "+$150 today" }
+    },
+    {
+      "title": "Unfinished",
+      "icon": "/custom-icons/unfinished.svg",
+      "value": "329",
+      "meta": { "percentage": "10", "change": "+$150 today" }
+    }
+  ],
+  "target": {
+    "title": "Target",
+    "description": "Revenue Target",
+    "graph": {
+      "value": 75.55,
+      "description": "You succeeded in earning $240 today, it's higher than yesterday"
+    },
+    "meta": {
+      "target": "$20k",
+      "revenue": "$16k",
+      "today": "$1.5k"
+    }
+  },
+  "statistics": {
+    "title": "Statistics",
+    "description": "Revenue and Sales",
+    "graph": {
+      "labels": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "revenue": [
+        720, 450, 620, 100, 720, 800, 780, 700, 680, 750, 820, 600, 500, 480,
+        1200
+      ],
+      "sales": [800, 610, 710, 790, 770, 690, 670, 740, 810, 580, 490, 470]
+    }
+  }
+}
