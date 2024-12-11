@@ -131,3 +131,22 @@ body {
     @apply font-sans text-lg text-[#777980];
   }
 }
+
+/* Custom Scrollbar */
+@layer utilities {
+  ::-webkit-scrollbar {
+    @apply w-1 h-1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#4b5563] rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#374151];
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#e5e7eb];
+  }
+}
