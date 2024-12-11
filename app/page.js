@@ -100,43 +100,83 @@ export default function Dashboard() {
     ],
   };
 
+  // Utility to format total sales value
+  const formatTotalSales = (value) => {
+    return value >= 1000 ? `$${(value / 1000).toFixed(1)}k` : `$${value}`;
+  };
+
   // Sales Source Data for Doughnut Chart
   const salesSourceData = {
-    labels: dashboardData.thirdRow.salesSource.graph.sources.map(
-      (source) => source.name
-    ),
+    labels: dashboardData.salesSource.graph.sources.map((source) => {
+      const amount = Math.round(
+        (source.percentage / 100) * dashboardData.salesSource.graph.totalSales
+      );
+      return `${source.name} ($${amount.toLocaleString()})`;
+    }),
     datasets: [
       {
-        data: dashboardData.thirdRow.salesSource.graph.sources.map(
-          (source) => source.value
+        data: dashboardData.salesSource.graph.sources.map(
+          (source) => source.percentage
         ),
-        backgroundColor: dashboardData.thirdRow.salesSource.graph.sources.map(
+        backgroundColor: dashboardData.salesSource.graph.sources.map(
           (source) => source.color
         ),
-        hoverBackgroundColor:
-          dashboardData.thirdRow.salesSource.graph.sources.map(
-            (source) => source.color
-          ),
+        hoverBackgroundColor: dashboardData.salesSource.graph.sources.map(
+          (source) => source.color
+        ),
         borderWidth: 0,
       },
     ],
   };
 
+  // const salesSourceOptions = {
+  //   plugins: {
+  //     legend: {
+  //       position: "bottom",
+  //       labels: {
+  //         usePointStyle: true,
+  //         pointStyle: "circle",
+  //         padding: 10,
+  //         boxWidth: 10,
+  //         font: {
+  //           size: 14,
+  //         },
+  //       },
+  //     },
+  //     tooltip: { enabled: true },
+  //   },
+  //   cutout: "90%",
+  // };
+
   const salesSourceOptions = {
     plugins: {
       legend: {
         position: "bottom",
+        display: false,
         labels: {
           usePointStyle: true,
           pointStyle: "circle",
+          boxWidth: 10,
           padding: 10,
           boxWidth: 10,
           font: {
-            size: 12,
+            size: 14,
+          },
+          generateLabels: (chart) => {
+            const data = chart.data;
+            return data.labels.map((label, index) => {
+              const dataset = data.datasets[0];
+              return {
+                text: label,
+                fillStyle: dataset.backgroundColor[index],
+                hidden: chart.getDatasetMeta(0).data[index].hidden,
+                index: index,
+              };
+            });
           },
         },
-        tooltip: { enabled: true },
       },
+      tooltip: { enabled: true },
     },
     cutout: "90%",
   };
@@ -182,7 +222,7 @@ export default function Dashboard() {
             {dashboardData.overview.map((item, index) => (
               <div
                 key={index}
-                className="card bg-white p-4 shadow-md rounded-lg flex flex-col items-start"
+                className="card bg-white p-6 shadow-shadow2 rounded-xl flex flex-col items-start"
               >
                 <div className="flex items-start justify-between w-full mb-4">
                   <div>
@@ -234,7 +274,7 @@ export default function Dashboard() {
           {/* Second Row */}
           <div className="grid grid-cols-3 gap-6">
             {/* Target Card */}
-            <div className="col-span-1 bg-white p-6 shadow-md rounded-lg flex flex-col">
+            <div className="col-span-1 bg-white p-6 shadow-shadow2 rounded-xl flex flex-col">
               <h3 className="text-xl font-semibold mb-0.5">
                 {dashboardData.target.title}
               </h3>
@@ -273,7 +313,7 @@ export default function Dashboard() {
             </div>
 
             {/* Statistics Card */}
-            <div className="col-span-2 bg-white p-6 shadow-md rounded-lg">
+            <div className="col-span-2 bg-white p-6 shadow-shadow2 rounded-xl">
               <h3 className="text-xl font-semibold mb-0.5">
                 {dashboardData.statistics.title}
               </h3>
@@ -285,14 +325,47 @@ export default function Dashboard() {
           {/* Third Row */}
           <div className="grid grid-cols-3 gap-6 mt-6">
             {/* Sales Source */}
-            <div className="bg-white p-6 shadow-md rounded-lg">
+            <div className="bg-white p-6 shadow-shadow2 rounded-xl">
               <h3 className="text-xl font-semibold mb-0.5">Sales Source</h3>
-              <div className="relative w-4/5 mx-auto mt-4">
-                <Doughnut data={salesSourceData} options={salesSourceOptions} />
-                <div className="absolute text-center top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
-                  <h2 className="text-[20px] font-semibold">
-                    {dashboardData.totalSales}
-                  </h2>
+              <div className="w-4/5 mx-auto mt-4">
+                <div className="relative">
+                  <Doughnut
+                    data={salesSourceData}
+                    options={salesSourceOptions}
+                  />
+
+                  <div className="absolute text-center top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
+                    <h2 className="text-[28px] font-semibold">
+                      {formatTotalSales(
+                        dashboardData.salesSource.graph.totalSales
+                      )}
+                    </h2>
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-between mt-4">
+                  {dashboardData.salesSource.graph.sources.map(
+                    (source, index) => (
+                      <div
+                        key={index}
+                        className="w-full flex items-center gap-2"
+                      >
+                        <span
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: source.color }}
+                        ></span>
+                        <span className="text-sm font-medium text-[#4A4C56]">
+                          {source.name}
+                        </span>
+                        <h5 className="font-medium ml-auto">
+                          $
+                          {Math.round(
+                            (source.percentage / 100) *
+                              dashboardData.salesSource.graph.totalSales
+                          ).toLocaleString()}
+                        </h5>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </div>
