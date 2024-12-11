@@ -1,0 +1,114 @@
+{
+  "products": [
+    {
+      "id": "p1",
+      "name": "Smartwatch E2",
+      "categoryId": "c1",
+      "details": {
+        "description": "Smartwatch for men and women notify you incoming calls, SMS notifications. When you connect the smartphone with a fitness tracker, you will never miss a call or a message. The smartwatch for android phones will vibrate to alert you if your phone receives any notifications. You can reject calls and view messages directly from your watch. A great gift for family and friends.",
+        "sku": "302002",
+        "barcode": "0984939101123",
+        "quantity": 124,
+        "basePrice": 400.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "status": "In Stock",
+        "addedDate": "2024-12-10",
+        "weight": "0.25 kg",
+        "height": "10 cm",
+        "length": "10 cm",
+        "width": "7 cm",
+        "isPhysicalProduct": true
+      },
+      "media": ["image1.jpg", "image2.jpg", "image3.jpg"],
+      "variations": [
+        {
+          "type": "Color",
+          "value": "Black"
+        }
+      ],
+      "shipping": {
+        "isPhysicalProduct": true,
+        "weight": "0.25 kg",
+        "height": "10 cm",
+        "length": "10 cm",
+        "width": "7 cm"
+      }
+    }
+  ],
+  "categories": {
+    "c1": {
+      "id": "c1",
+      "name": "Smartwatch",
+      "icon": "smartwatch_icon.png"
+    },
+    "c2": {
+      "id": "c2",
+      "name": "Mouse",
+      "icon": "mouse_icon.png"
+    }
+  },
+  "orders": [
+    {
+      "id": "o1",
+      "products": [
+        {
+          "productId": "p1",
+          "quantity": 2
+        },
+        {
+          "productId": "p2",
+          "quantity": 1
+        }
+      ],
+      "orderDate": "2024-12-10",
+      "customer": {
+        "name": "John Bushmill",
+        "contact": "Johnb@mail.com"
+      },
+      "status": "Processing"
+    },
+    {
+      "id": "o2",
+      "products": [
+        {
+          "productId": "p1",
+          "quantity": 2
+        },
+        {
+          "productId": "p2",
+          "quantity": 1
+        }
+      ],
+      "orderDate": "2024-12-10",
+      "customer": {
+        "name": "Ilham Budi Agung",
+        "contact": "ilahmbudi@mail.com"
+      },
+      "status": "Shiped"
+    },
+    {
+      "id": "o3",
+      "products": [
+        {
+          "productId": "p1",
+          "quantity": 2
+        },
+        {
+          "productId": "p2",
+          "quantity": 1
+        }
+      ],
+      "orderDate": "2024-12-10",
+      "customer": {
+        "name": "Josh Adam",
+        "contact": "josh_adam@mail.com"
+      },
+      "status": "Delivered"
+    }
+  ]
+}
