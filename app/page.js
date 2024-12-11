@@ -100,6 +100,47 @@ export default function Dashboard() {
     ],
   };
 
+  // Sales Source Data for Doughnut Chart
+  const salesSourceData = {
+    labels: dashboardData.thirdRow.salesSource.graph.sources.map(
+      (source) => source.name
+    ),
+    datasets: [
+      {
+        data: dashboardData.thirdRow.salesSource.graph.sources.map(
+          (source) => source.value
+        ),
+        backgroundColor: dashboardData.thirdRow.salesSource.graph.sources.map(
+          (source) => source.color
+        ),
+        hoverBackgroundColor:
+          dashboardData.thirdRow.salesSource.graph.sources.map(
+            (source) => source.color
+          ),
+        borderWidth: 0,
+      },
+    ],
+  };
+
+  const salesSourceOptions = {
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          usePointStyle: true,
+          pointStyle: "circle",
+          padding: 10,
+          boxWidth: 10,
+          font: {
+            size: 12,
+          },
+        },
+        tooltip: { enabled: true },
+      },
+    },
+    cutout: "90%",
+  };
+
   return (
     <>
       <Head>
@@ -238,6 +279,22 @@ export default function Dashboard() {
               </h3>
               <p className="text-sm">{dashboardData.statistics.description}</p>
               <Line data={lineData} />
+            </div>
+          </div>
+
+          {/* Third Row */}
+          <div className="grid grid-cols-3 gap-6 mt-6">
+            {/* Sales Source */}
+            <div className="bg-white p-6 shadow-md rounded-lg">
+              <h3 className="text-xl font-semibold mb-0.5">Sales Source</h3>
+              <div className="relative w-4/5 mx-auto mt-4">
+                <Doughnut data={salesSourceData} options={salesSourceOptions} />
+                <div className="absolute text-center top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
+                  <h2 className="text-[20px] font-semibold">
+                    {dashboardData.totalSales}
+                  </h2>
+                </div>
+              </div>
             </div>
           </div>
         </div>

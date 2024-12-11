@@ -62,5 +62,40 @@
       ],
       "sales": [800, 610, 710, 790, 770, 690, 670, 740, 810, 580, 490, 470]
     }
+  },
+  "thirdRow": {
+    "salesSource": {
+      "title": "Sales Source",
+      "description": "",
+      "graph": {
+        "totalSales": 75500,
+        "sources": [
+          {
+            "name": "Official Website",
+            "value": 30200,
+            "percentage": 40,
+            "color": "#2086BF"
+          },
+          {
+            "name": "Offline Store",
+            "value": 11325,
+            "percentage": 15,
+            "color": "#2BB2FE"
+          },
+          {
+            "name": "Amazon Store",
+            "value": 7550,
+            "percentage": 10,
+            "color": "#80D1FE"
+          },
+          {
+            "name": "Reseller",
+            "value": 26425,
+            "percentage": 35,
+            "color": "#D5F0FF"
+          }
+        ]
+      }
+    }
   }
 }
