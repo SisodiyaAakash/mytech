@@ -88,6 +88,7 @@ export default function Dashboard() {
         backgroundColor: "#2086BF",
         tension: 0.3,
         fill: true,
+        pointStyle: "circle",
       },
       {
         label: "Sales",
@@ -98,6 +99,28 @@ export default function Dashboard() {
         fill: true,
       },
     ],
+  };
+
+  const lineOptions = {
+    plugins: {
+      legend: {
+        position: "top",
+        align: "end",
+        labels: {
+          usePointStyle: true,
+          pointStyle: "circle",
+          boxWidth: 12,
+          boxHeight: 12,
+          padding: 10,
+          font: {
+            size: 12,
+          },
+        },
+      },
+      tooltip: { enabled: true },
+    },
+    responsive: true,
+    maintainAspectRatio: true,
   };
 
   // Utility to format total sales value
@@ -128,25 +151,6 @@ export default function Dashboard() {
       },
     ],
   };
-
-  // const salesSourceOptions = {
-  //   plugins: {
-  //     legend: {
-  //       position: "bottom",
-  //       labels: {
-  //         usePointStyle: true,
-  //         pointStyle: "circle",
-  //         padding: 10,
-  //         boxWidth: 10,
-  //         font: {
-  //           size: 14,
-  //         },
-  //       },
-  //     },
-  //     tooltip: { enabled: true },
-  //   },
-  //   cutout: "90%",
-  // };
 
   const salesSourceOptions = {
     plugins: {
@@ -318,7 +322,7 @@ export default function Dashboard() {
                 {dashboardData.statistics.title}
               </h3>
               <p className="text-sm">{dashboardData.statistics.description}</p>
-              <Line data={lineData} />
+              <Line data={lineData} options={lineOptions} />
             </div>
           </div>
 
@@ -368,6 +372,18 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
+            </div>
+
+            {/* Top Product */}
+            <div className="bg-white p-6 shadow-shadow2 rounded-xl">
+              <h3 className="text-xl font-semibold mb-0.5">Top Product</h3>
+              <p className="text-sm">Top Product in This Month</p>
+            </div>
+
+            {/* Top Category */}
+            <div className="bg-white p-6 shadow-shadow2 rounded-xl">
+              <h3 className="text-xl font-semibold mb-0.5">Top Category</h3>
+              <p className="text-sm">Top Category in This Month</p>
             </div>
           </div>
         </div>
