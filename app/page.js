@@ -323,7 +323,7 @@ export default function Dashboard() {
           </div>
 
           {/* Third Row */}
-          <div className="grid grid-cols-3 gap-6 mt-6">
+          <div className="grid grid-cols-3 gap-6">
             {/* Sales Source */}
             <div className="bg-white p-6 shadow-shadow2 rounded-xl">
               <h3 className="text-xl font-semibold mb-4">Sales Source</h3>
