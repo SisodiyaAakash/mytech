@@ -58,7 +58,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed md:w-64 h-screen overflow-y-auto">
+    <aside className="fixed md:w-64 h-screen overflow-y-auto shadow-shadow1 z-10">
       <div className="px-5 py-6 flex items-center gap-3">
         <Image src="/logo.svg" alt="MT" width={34} height={34} />
         <h1 className="text-2xl">Mytech</h1>
