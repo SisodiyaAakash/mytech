@@ -326,9 +326,9 @@ export default function Dashboard() {
           <div className="grid grid-cols-3 gap-6 mt-6">
             {/* Sales Source */}
             <div className="bg-white p-6 shadow-shadow2 rounded-xl">
-              <h3 className="text-xl font-semibold mb-0.5">Sales Source</h3>
-              <div className="w-4/5 mx-auto mt-4">
-                <div className="relative">
+              <h3 className="text-xl font-semibold mb-4">Sales Source</h3>
+              <div>
+                <div className="relative w-4/5 mx-auto">
                   <Doughnut
                     data={salesSourceData}
                     options={salesSourceOptions}
