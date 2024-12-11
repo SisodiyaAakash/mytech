@@ -5,7 +5,7 @@
 :root {
   /* Theme Colors */
   --background: #fbfbfb;
-  --foreground: #0f1016;
+  --foreground: #1D1F2C;
 
   /* Typography */
   --primaryfont: "Public Sans";
@@ -17,7 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f1016;
+    --background: #1D1F2C;
     --foreground: #fbfbfb;
   }
 }
