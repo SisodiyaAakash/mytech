@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export default function Product() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
+  const [productStatus, setProductStatus] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -15,6 +16,7 @@ export default function Product() {
         const data = await response.json();
         setProducts(data.products);
         setCategories(data.categories);
+        setProductStatus(data.productStatus);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -81,6 +83,7 @@ export default function Product() {
                 <th className="p-3 border-b">
                   <input type="checkbox" />
                 </th>
+                <th className="p-3 border-b">Product</th>
                 <th className="p-3 border-b">SKU</th>
                 <th className="p-3 border-b">Category</th>
                 <th className="p-3 border-b">Stock</th>
@@ -96,6 +99,7 @@ export default function Product() {
                   <td className="p-3 border-b">
                     <input type="checkbox" />
                   </td>
+                  <td className="p-3 border-b">{product.name}</td>
                   <td className="p-3 border-b">{product.details.sku}</td>
                   <td className="p-3 border-b">
                     {categories[product.categoryId]?.name}
@@ -104,18 +108,38 @@ export default function Product() {
                   <td className="p-3 border-b">
                     ${product.details.basePrice.toFixed(2)}
                   </td>
-                  <td className="p-3 border-b">{product.details.status}</td>
+                  <td className="p-3 border-b">
+                    {productStatus[product.details.statusId]?.name}
+                  </td>
                   <td className="p-3 border-b">{product.details.addedDate}</td>
                   <td className="p-3 border-b">
                     <div className="flex gap-2">
-                      <button className="text-blue-600 hover:underline">
-                        Edit
+                      <button className="group p-0">
+                        <Image
+                          src="/icons/edit.svg"
+                          className="group-hover:brightness-0 duration-500"
+                          alt="Edit Icon"
+                          width={16}
+                          height={16}
+                        />
                       </button>
-                      <button className="text-green-600 hover:underline">
-                        View
+                      <button className="group p-0">
+                        <Image
+                          src="/icons/view.svg"
+                          className="group-hover:brightness-0 duration-500"
+                          alt="View Icon"
+                          width={16}
+                          height={16}
+                        />
                       </button>
-                      <button className="text-red-600 hover:underline">
-                        Delete
+                      <button className="group p-0">
+                        <Image
+                          src="/icons/delete.svg"
+                          className="group-hover:brightness-0 duration-500"
+                          alt="Delete Icon"
+                          width={16}
+                          height={16}
+                        />
                       </button>
                     </div>
                   </td>

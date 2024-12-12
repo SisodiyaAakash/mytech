@@ -3,10 +3,10 @@
     {
       "id": "p1",
       "name": "Handmade Pouch",
-      "categoryId": "c2",
+      "categoryId": "c3",
       "details": {
-        "description": "Smartwatch for men and women notify you incoming calls, SMS notifications. When you connect the smartphone with a fitness tracker, you will never miss a call or a message. The smartwatch for android phones will vibrate to alert you if your phone receives any notifications. You can reject calls and view messages directly from your watch. A great gift for family and friends.",
-        "sku": "302002",
+        "description": "",
+        "sku": "302012",
         "barcode": "0984939101123",
         "quantity": 124,
         "basePrice": 400.0,
@@ -16,13 +16,8 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "status": "In Stock",
-        "addedDate": "2024-12-10",
-        "weight": "0.25 kg",
-        "height": "10 cm",
-        "length": "10 cm",
-        "width": "7 cm",
-        "isPhysicalProduct": true
+        "statusId": "s1",
+        "addedDate": "2024-12-10"
       },
       "media": ["", "", ""],
       "variations": [
@@ -32,11 +27,11 @@
         }
       ],
       "shipping": {
-        "isPhysicalProduct": true,
         "weight": "0.25 kg",
         "height": "10 cm",
         "length": "10 cm",
-        "width": "7 cm"
+        "width": "7 cm",
+        "isPhysicalProduct": true
       }
     },
     {
@@ -45,23 +40,18 @@
       "categoryId": "c1",
       "details": {
         "description": "Smartwatch for men and women notify you incoming calls, SMS notifications. When you connect the smartphone with a fitness tracker, you will never miss a call or a message. The smartwatch for android phones will vibrate to alert you if your phone receives any notifications. You can reject calls and view messages directly from your watch. A great gift for family and friends.",
-        "sku": "302002",
-        "barcode": "0984939101123",
-        "quantity": 124,
-        "basePrice": 400.0,
+        "sku": "302011",
+        "barcode": "",
+        "quantity": 204,
+        "basePrice": 590.0,
         "discount": {
           "type": "No Discount",
           "percentage": 0
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "status": "In Stock",
-        "addedDate": "2024-12-10",
-        "weight": "0.25 kg",
-        "height": "10 cm",
-        "length": "10 cm",
-        "width": "7 cm",
-        "isPhysicalProduct": true
+        "statusId": "s2",
+        "addedDate": "2024-12-10"
       },
       "media": ["", "", ""],
       "variations": [
@@ -71,11 +61,214 @@
         }
       ],
       "shipping": {
-        "isPhysicalProduct": true,
         "weight": "0.25 kg",
         "height": "10 cm",
         "length": "10 cm",
-        "width": "7 cm"
+        "width": "7 cm",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p3",
+      "name": "Headphone G1 Pro",
+      "categoryId": "c4",
+      "details": {
+        "description": "",
+        "sku": "301901",
+        "barcode": "",
+        "quantity": 401,
+        "basePrice": 348.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s3",
+        "addedDate": "2022-10-21"
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p4",
+      "name": "Iphone X",
+      "categoryId": "c2",
+      "details": {
+        "description": "",
+        "sku": "301900",
+        "barcode": "",
+        "quantity": 120,
+        "basePrice": 607.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s3",
+        "addedDate": "2022-10-21"
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Puma Shoes",
+      "categoryId": "c5",
+      "details": {
+        "description": "",
+        "sku": "301881",
+        "barcode": "",
+        "quantity": 432,
+        "basePrice": 234.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s3",
+        "addedDate": "2022-10-21"
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p6",
+      "name": "Logic+ Wireless Mouse",
+      "categoryId": "c6",
+      "details": {
+        "description": "",
+        "sku": "301643",
+        "barcode": "",
+        "quantity": 0,
+        "basePrice": 0.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s5",
+        "addedDate": "2022-09-19"
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p7",
+      "name": "Nike Shoes",
+      "categoryId": "c5",
+      "details": {
+        "description": "",
+        "sku": "301600",
+        "barcode": "",
+        "quantity": 347,
+        "basePrice": 400.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s3",
+        "addedDate": "2022-09-19"
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p8",
+      "name": "Lego Car",
+      "categoryId": "c7",
+      "details": {
+        "description": "",
+        "sku": "301555",
+        "barcode": "",
+        "quantity": 299,
+        "basePrice": 812.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s3",
+        "addedDate": "2022-09-19"
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
+      }
+    },
+    {
+      "id": "p9",
+      "name": "PS Wireless Controller",
+      "categoryId": "c8",
+      "details": {
+        "description": "",
+        "sku": "301002",
+        "barcode": "",
+        "quantity": 38,
+        "basePrice": 123.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "statusId": "s4",
+        "addedDate": ""
+      },
+      "media": ["", "", ""],
+      "variations": [],
+      "shipping": {
+        "weight": "",
+        "height": "",
+        "length": "",
+        "width": "",
+        "isPhysicalProduct": true
       }
     }
   ],
@@ -97,27 +290,54 @@
     },
     "c4": {
       "id": "c4",
-      "name": "Tablet",
+      "name": "Audio",
       "icon": ""
     },
     "c5": {
       "id": "c5",
-      "name": "Earphone",
+      "name": "Shoes",
       "icon": ""
     },
     "c6": {
       "id": "c6",
-      "name": "Laptop & PC",
+      "name": "Mouse",
       "icon": ""
     },
     "c7": {
       "id": "c7",
-      "name": "Hardisk & USB Drive",
+      "name": "Toys",
       "icon": ""
     },
     "c8": {
       "id": "c8",
-      "name": "Camera",
+      "name": "Beauty",
+      "icon": ""
+    }
+  },
+  "productStatus": {
+    "s1": {
+      "id": "s1",
+      "name": "In Stock",
+      "icon": ""
+    },
+    "s2": {
+      "id": "s2",
+      "name": "Limited Stock",
+      "icon": ""
+    },
+    "s3": {
+      "id": "s3",
+      "name": "Out of Stock",
+      "icon": ""
+    },
+    "s4": {
+      "id": "s4",
+      "name": "Discontinued",
+      "icon": ""
+    },
+    "s5": {
+      "id": "s5",
+      "name": "Coming Soon",
       "icon": ""
     }
   },
