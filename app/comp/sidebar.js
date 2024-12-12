@@ -59,7 +59,7 @@ export default function Sidebar({ isVisible }) {
 
   return (
     <aside
-      className={`fixed md:w-64 h-screen overflow-y-auto shadow-shadow1 z-10 bg-white transition-transform transform ${
+      className={`fixed md:w-52 lg:w-64 h-screen overflow-y-auto shadow-shadow1 z-10 bg-white transition-transform transform ${
         isVisible ? "translate-x-0" : "-translate-x-full"
       } md:translate-x-0`}
     >

@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         <div className="flex items-start">
           <Sidebar isVisible={isSidebarVisible} />
 
-          <div className="w-full md:pl-64">
+          <div className="w-full md:pl-52 lg:pl-64">
             <Header onToggleSidebar={toggleSidebar} />
             {children}
           </div>

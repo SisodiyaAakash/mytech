@@ -88,17 +88,17 @@ export default function Header({ onToggleSidebar }) {
                 height={24}
               />
             </li>
-            <li className="w-10 h-10 relative flex items-center justify-center">
+            <li className="w-8 h-8 lg:w-10 lg:h-10 relative flex items-center justify-center">
               <span className="w-7 h-7 bg-[#E0E2E7] rounded-full"></span>
             </li>
           </ul>
 
           {/* Profile Action */}
           <div className="flex items-center gap-3 mt-4 md:mt-0">
-            <div className="w-8 h-8 bg-[#E0E2E7] rounded-full relative">
+            <div className="block min-w-6 w-6 h-6 lg:min-w-8 lg:w-8 lg:h-8 bg-[#E0E2E7] rounded-full relative">
               <span className="w-[10px] h-[10px] rounded-full bg-[#22CAAD] block absolute right-0 bottom-0 border-2 border-white"></span>
             </div>
-            <div className="flex flex-col gap-0.5 justify-center">
+            <div className="hidden lg:flex flex-col gap-0.5 justify-center">
               <h6 className="font-medium">Jenil Patel</h6>
               <p className="text-xs font-medium text-[#4A4C56]">Manager</p>
             </div>
