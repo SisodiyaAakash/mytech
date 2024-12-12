@@ -201,10 +201,10 @@ export default function Product() {
         <div className="filter-area p-6"></div>
 
         {/* Product Listing Area */}
-        <div className="product-listing bg-white rounded shadow p-4">
+        <div className="product-listing rounded-xl shadow-shadow2">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-white">
                 <th className="p-3 border-b">
                   <input
                     type="checkbox"
@@ -219,12 +219,12 @@ export default function Product() {
                 <th className="p-3 border-b">Price</th>
                 <th className="p-3 border-b">Status</th>
                 <th className="p-3 border-b">Added</th>
-                <th className="p-3 border-b">Action</th>
+                <th className="p-3 border-b text-right">Action</th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
+                <tr key={product.id} className="bg-[#EAF8FF] hover:bg-gray-50">
                   <td className="p-3 border-b">
                     <input
                       type="checkbox"
@@ -246,7 +246,7 @@ export default function Product() {
                   </td>
                   <td className="p-3 border-b">{product.details.addedDate}</td>
                   <td className="p-3 border-b">
-                    <div className="flex gap-2">
+                    <div className="flex justify-end gap-2">
                       <button
                         className="group p-0"
                         onClick={() => handleEditProduct(product.id)}
