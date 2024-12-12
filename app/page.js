@@ -196,7 +196,7 @@ export default function Dashboard() {
 
       <div className="px-6">
         {/* Heading Area */}
-        <div className="flex items-center mb-6">
+        <div className="flex items-center flex-wrap mb-6">
           <div className="flex-grow">
             <h1 className="mb-2">Welcome Back Jenil</h1>
             <p>Lorem ipsum dolor sit amet, welcome back Jenil!</p>
@@ -224,7 +224,7 @@ export default function Dashboard() {
         {/* Cards and Charts */}
         <div className="flex flex-col gap-6">
           {/* First Row */}
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {dashboardData.overview.map((item, index) => (
               <div
                 key={index}
@@ -278,9 +278,9 @@ export default function Dashboard() {
           </div>
 
           {/* Second Row */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Target Card */}
-            <div className="col-span-1 bg-white p-6 shadow-shadow2 rounded-xl flex flex-col">
+            <div className="lg:col-span-1 bg-white p-6 shadow-shadow2 rounded-xl flex flex-col">
               <h3 className="text-xl font-semibold mb-0.5">
                 {dashboardData.target.title}
               </h3>
@@ -319,7 +319,7 @@ export default function Dashboard() {
             </div>
 
             {/* Statistics Card */}
-            <div className="col-span-2 bg-white p-6 shadow-shadow2 rounded-xl">
+            <div className="lg:col-span-2 bg-white p-6 shadow-shadow2 rounded-xl">
               <h3 className="text-xl font-semibold mb-0.5">
                 {dashboardData.statistics.title}
               </h3>
@@ -329,7 +329,7 @@ export default function Dashboard() {
           </div>
 
           {/* Third Row */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-6">
             {/* Sales Source */}
             <div className="bg-white p-6 shadow-shadow2 rounded-xl">
               <h3 className="text-xl font-semibold mb-4">Sales Source</h3>

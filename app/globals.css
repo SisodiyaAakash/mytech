@@ -163,3 +163,10 @@ body {
     @apply bg-[#e5e7eb];
   }
 }
+
+/* Sidebar Responsiveness */
+@media (max-width: 768px) {
+  aside {
+    @apply fixed w-4/5 bg-white;
+  }
+}
