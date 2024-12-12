@@ -13,6 +13,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  Filler,
 } from "chart.js";
 
 ChartJS.register(
@@ -22,7 +23,8 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement
+  LineElement,
+  Filler
 );
 
 export default function Dashboard() {
@@ -87,7 +89,7 @@ export default function Dashboard() {
         borderColor: "#2086BF",
         backgroundColor: "#2086BF",
         tension: 0.3,
-        fill: true,
+        fill: false,
         pointStyle: "circle",
       },
       {
@@ -96,7 +98,7 @@ export default function Dashboard() {
         borderColor: "#F86624",
         backgroundColor: "#F86624",
         tension: 0.3,
-        fill: true,
+        fill: false,
       },
     ],
   };
