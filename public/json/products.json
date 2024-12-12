@@ -317,28 +317,23 @@
   "productStatus": {
     "s1": {
       "id": "s1",
-      "name": "In Stock",
-      "icon": ""
+      "name": "In Stock"
     },
     "s2": {
       "id": "s2",
-      "name": "Limited Stock",
-      "icon": ""
+      "name": "Limited Stock"
     },
     "s3": {
       "id": "s3",
-      "name": "Out of Stock",
-      "icon": ""
+      "name": "Out of Stock"
     },
     "s4": {
       "id": "s4",
-      "name": "Discontinued",
-      "icon": ""
+      "name": "Discontinued"
     },
     "s5": {
       "id": "s5",
-      "name": "Coming Soon",
-      "icon": ""
+      "name": "Coming Soon"
     }
   },
   "orders": [

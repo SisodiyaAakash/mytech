@@ -224,7 +224,14 @@ export default function Product() {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product.id} className="bg-[#EAF8FF] hover:bg-gray-50">
+                <tr
+                  key={product.id}
+                  className={`bg-white border-[#EAF8FF] ${
+                    selectedProducts.has(product.id)
+                      ? "bg-[#F9F9FC]"
+                      : "hover:bg-[#F9F9FC]"
+                  }`}
+                >
                   <td className="p-3 border-b">
                     <input
                       type="checkbox"
