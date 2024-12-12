@@ -2,6 +2,45 @@
   "products": [
     {
       "id": "p1",
+      "name": "Handmade Pouch",
+      "categoryId": "c2",
+      "details": {
+        "description": "Smartwatch for men and women notify you incoming calls, SMS notifications. When you connect the smartphone with a fitness tracker, you will never miss a call or a message. The smartwatch for android phones will vibrate to alert you if your phone receives any notifications. You can reject calls and view messages directly from your watch. A great gift for family and friends.",
+        "sku": "302002",
+        "barcode": "0984939101123",
+        "quantity": 124,
+        "basePrice": 400.0,
+        "discount": {
+          "type": "No Discount",
+          "percentage": 0
+        },
+        "taxClass": "Tax Free",
+        "vatAmount": 0,
+        "status": "In Stock",
+        "addedDate": "2024-12-10",
+        "weight": "0.25 kg",
+        "height": "10 cm",
+        "length": "10 cm",
+        "width": "7 cm",
+        "isPhysicalProduct": true
+      },
+      "media": ["", "", ""],
+      "variations": [
+        {
+          "type": "Color",
+          "value": "Black"
+        }
+      ],
+      "shipping": {
+        "isPhysicalProduct": true,
+        "weight": "0.25 kg",
+        "height": "10 cm",
+        "length": "10 cm",
+        "width": "7 cm"
+      }
+    },
+    {
+      "id": "p2",
       "name": "Smartwatch E2",
       "categoryId": "c1",
       "details": {
@@ -24,7 +63,7 @@
         "width": "7 cm",
         "isPhysicalProduct": true
       },
-      "media": ["image1.jpg", "image2.jpg", "image3.jpg"],
+      "media": ["", "", ""],
       "variations": [
         {
           "type": "Color",
@@ -44,12 +83,42 @@
     "c1": {
       "id": "c1",
       "name": "Smartwatch",
-      "icon": "smartwatch_icon.png"
+      "icon": ""
     },
     "c2": {
       "id": "c2",
-      "name": "Mouse",
-      "icon": "mouse_icon.png"
+      "name": "Smartphone",
+      "icon": ""
+    },
+    "c3": {
+      "id": "c3",
+      "name": "Bag & Pouch",
+      "icon": ""
+    },
+    "c4": {
+      "id": "c4",
+      "name": "Tablet",
+      "icon": ""
+    },
+    "c5": {
+      "id": "c5",
+      "name": "Earphone",
+      "icon": ""
+    },
+    "c6": {
+      "id": "c6",
+      "name": "Laptop & PC",
+      "icon": ""
+    },
+    "c7": {
+      "id": "c7",
+      "name": "Hardisk & USB Drive",
+      "icon": ""
+    },
+    "c8": {
+      "id": "c8",
+      "name": "Camera",
+      "icon": ""
     }
   },
   "orders": [
