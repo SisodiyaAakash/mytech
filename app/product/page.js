@@ -135,7 +135,7 @@ export default function Product() {
       </Head>
       <div className="product-page px-6">
         {/* Heading Area */}
-        <div className="heading-area flex justify-between items-end">
+        <div className="heading-area flex flex-wrap justify-between items-end gap-4">
           <div>
             <h1 className="text-2xl font-semibold mb-2">Product</h1>
             <nav className="breadcrumb text-sm font-medium flex items-center gap-2">
@@ -201,8 +201,8 @@ export default function Product() {
         <div className="filter-area p-6"></div>
 
         {/* Product Listing Area */}
-        <div className="product-listing rounded-xl shadow-shadow2">
-          <table className="w-full text-left border-collapse">
+        <div className="product-listing rounded-xl shadow-shadow2 overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[600px]">
             <thead>
               <tr className="bg-white">
                 <th className="p-3 border-b">

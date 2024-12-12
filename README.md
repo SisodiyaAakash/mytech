@@ -23,6 +23,7 @@ And from the start I've deployed the project in the vercel as mentioned.
 The pending stuffs:
 I've not rendered the Top Products and Top Categories yet but it can be fetched from the same json file I used in the product listing page (products.json)
 I've not developed the edit page for the product, however I've setup the route to the page and also added it in the CRUD operations of the Product Listing page
+There should be number of variations in the product listing page I have not worked yet on that part too.
 
 Thank you Binita & HR Ma'am for this amazing challenging but full of learning opportunity.
 

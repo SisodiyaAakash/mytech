@@ -8,20 +8,6 @@ export default function Header({ onToggleSidebar }) {
 
   return (
     <header className="flex items-center gap-8 justify-between p-6">
-      {/* Hamburger Menu for Mobile */}
-      <button
-        className="md:hidden block p-2"
-        onClick={onToggleSidebar}
-        aria-label="Toggle Sidebar"
-      >
-        <Image
-          src="/icons/hamburger.svg"
-          alt="Menu Icon"
-          width={24}
-          height={24}
-        />
-      </button>
-
       {/* Search Area */}
       <div className="flex items-center gap-2 p-2 flex-grow">
         <Image
@@ -112,6 +98,20 @@ export default function Header({ onToggleSidebar }) {
           </div>
         </div>
       </div>
+
+      {/* Hamburger Menu for Mobile */}
+      <button
+        className="md:hidden block p-2"
+        onClick={onToggleSidebar}
+        aria-label="Toggle Sidebar"
+      >
+        <Image
+          src="/icons/hamburger.svg"
+          alt="Menu Icon"
+          width={24}
+          height={24}
+        />
+      </button>
     </header>
   );
 }
