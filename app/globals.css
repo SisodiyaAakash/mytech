@@ -130,6 +130,19 @@ body {
   p {
     @apply font-sans text-lg text-[#777980];
   }
+
+  a {
+    @apply text-[#2086BF];
+  }
+
+  input,
+  select,
+  textarea {
+    @apply font-sans;
+  }
+  button {
+    @apply text-sm font-sans font-semibold flex items-center gap-1 rounded-lg px-[14px] py-[10px];
+  }
 }
 
 /* Custom Scrollbar */
