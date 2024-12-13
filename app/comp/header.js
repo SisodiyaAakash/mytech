@@ -7,7 +7,7 @@ export default function Header({ onToggleSidebar }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <header className="flex items-center gap-8 justify-between p-6">
+    <header className="flex items-center sticky top-0 gap-8 justify-between p-6 bg-[#FBFBFB] z-50">
       {/* Search Area */}
       <div className="flex items-center gap-2 p-2 flex-grow">
         <Image
@@ -82,7 +82,7 @@ export default function Header({ onToggleSidebar }) {
           {/* Profile Action */}
           <div className="flex items-center gap-3 mt-4 md:mt-0">
             <div className="block min-w-6 w-6 h-6 lg:min-w-8 lg:w-8 lg:h-8 bg-[#E0E2E7] rounded-full relative">
-              <span className="w-[10px] h-[10px] rounded-full bg-[#22CAAD] block absolute right-0 bottom-0 border-2 border-white"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#22CAAD] block absolute right-0 bottom-0 border-2 border-white"></span>
             </div>
             <div className="hidden lg:flex flex-col gap-0.5 justify-center">
               <h6 className="font-medium">Jenil Patel</h6>

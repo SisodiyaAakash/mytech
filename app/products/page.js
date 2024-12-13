@@ -198,13 +198,73 @@ export default function Product() {
         </div>
 
         {/* Filter Area */}
-        <div className="filter-area py-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="status-toggler">
-              {Object.values(productStatus).map((status) => (
-                <div key={status.id}>{status.name}</div>
-              ))}
-            </div>
+        <div className="filter-area py-6 flex flex-wrap items-center justify-between gap-4 w-full">
+          <ul className="status-list rounded-lg border border-[#E0E2E7] p-1 flex items-center">
+            <li className="active text-sm font-medium bg-transparent text-[#667085] hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500">
+              All Product
+            </li>
+            {Object.values(productStatus).map((status) => (
+              <li
+                className="text-sm font-medium bg-transparent text-[#667085] hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500"
+                key={status.id}
+              >
+                {status.name}
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <label className="group w-52 flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white">
+              <Image
+                src="/icons/search.svg"
+                className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
+                alt="Search Icon"
+                width={20}
+                height={20}
+              />
+              <input
+                type="search"
+                placeholder="Search product..."
+                className="text-sm font-medium outline-0 bg-transparent flex-grow placeholder:text-[#858D9D]"
+              />
+            </label>
+            <label className="group flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+              <Image
+                src="/icons/calendar.svg"
+                className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
+                alt="Calendar Icon"
+                width={20}
+                height={20}
+              />
+              Select Date
+              <input
+                className="invisible absolute w-full h-full"
+                id="datepicker"
+                name="datepicker"
+                type="date"
+                placeholder="Select Dates"
+              />
+            </label>
+            <label className="group flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+              <Image
+                src="/icons/filter.svg"
+                className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
+                alt="Filter Icon"
+                width={20}
+                height={20}
+              />
+              Filters
+            </label>
+            <label className="group flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+              <Image
+                src="/icons/column.svg"
+                className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-3.5 lg:w-4 lg:h-4"
+                alt="Column Icon"
+                width={16}
+                height={16}
+              />
+              Edit Column
+            </label>
           </div>
         </div>
 
@@ -302,7 +362,7 @@ export default function Product() {
                   </td>
                   <td className="px-6 py-[18px] border-b text-nowrap">
                     <span
-                      className={`px-[10px] py-1 rounded-lg ${
+                      className={`px-2.5 py-1 rounded-lg ${
                         productStatus[product.details.statusId]?.name ===
                         "Published"
                           ? "bg-[#E9FAF7] text-[#1A9882]"
@@ -332,7 +392,7 @@ export default function Product() {
                       >
                         <Image
                           src="/icons/edit.svg"
-                          className="group-hover:brightness-0 duration-500 min-w-[14px] w-[14px] h-[14px] lg:min-w-4 lg:w-4 lg:h-4"
+                          className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-4 lg:w-4 lg:h-4"
                           alt="Edit Icon"
                           width={16}
                           height={16}
@@ -344,7 +404,7 @@ export default function Product() {
                       >
                         <Image
                           src="/icons/view.svg"
-                          className="group-hover:brightness-0 duration-500 min-w-[14px] w-[14px] h-[14px] lg:min-w-4 lg:w-4 lg:h-4"
+                          className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-4 lg:w-4 lg:h-4"
                           alt="View Icon"
                           width={16}
                           height={16}
@@ -356,7 +416,7 @@ export default function Product() {
                       >
                         <Image
                           src="/icons/delete.svg"
-                          className="group-hover:brightness-0 duration-500 min-w-[14px] w-[14px] h-[14px] lg:min-w-4 lg:w-4 lg:h-4"
+                          className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-4 lg:w-4 lg:h-4"
                           alt="Delete Icon"
                           width={16}
                           height={16}
