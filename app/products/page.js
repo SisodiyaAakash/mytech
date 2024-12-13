@@ -10,7 +10,7 @@ export default function Product() {
   const [categories, setCategories] = useState({});
   const [productStatus, setProductStatus] = useState({});
   const [selectedProducts, setSelectedProducts] = useState(new Set());
-  const [viewProduct, setViewProduct] = useState(null); // New state for the modal
+  const [viewProduct, setViewProduct] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function Product() {
               Export
             </button>
             <button
-              className="group add-product-btn bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border border-[#2086BF] duration-500"
+              className="group add-product-btn bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border-[#2086BF] duration-500"
               onClick={handleAddProduct}
             >
               <Image
@@ -205,21 +205,38 @@ export default function Product() {
           <table className="w-full text-left border-collapse min-w-[600px]">
             <thead>
               <tr className="bg-white">
-                <th className="p-3 border-b">
-                  <input
-                    type="checkbox"
-                    checked={selectedProducts.size === products.length}
-                    onChange={handleSelectAll}
-                  />
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  <div className="flex items-center gap-2">
+                    <input
+                      className="min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 rounded-md border-2 border-[#858D9D] outline-0"
+                      type="checkbox"
+                      checked={selectedProducts.size === products.length}
+                      onChange={handleSelectAll}
+                    />
+                    Product
+                  </div>
                 </th>
-                <th className="p-3 border-b">Product</th>
-                <th className="p-3 border-b">SKU</th>
-                <th className="p-3 border-b">Category</th>
-                <th className="p-3 border-b">Stock</th>
-                <th className="p-3 border-b">Price</th>
-                <th className="p-3 border-b">Status</th>
-                <th className="p-3 border-b">Added</th>
-                <th className="p-3 border-b text-right">Action</th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  SKU
+                </th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  Category
+                </th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  Stock
+                </th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  Price
+                </th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  Status
+                </th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                  Added
+                </th>
+                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C] text-right">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -232,59 +249,106 @@ export default function Product() {
                       : "hover:bg-[#F9F9FC]"
                   }`}
                 >
-                  <td className="p-3 border-b">
-                    <input
-                      type="checkbox"
-                      checked={selectedProducts.has(product.id)}
-                      onChange={() => handleProductSelection(product.id)}
-                    />
+                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
+                    <div className="flex items-center gap-2">
+                      <input
+                        className="min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 rounded-md border-2 border-[#858D9D] outline-0"
+                        type="checkbox"
+                        checked={selectedProducts.has(product.id)}
+                        onChange={() => handleProductSelection(product.id)}
+                      />
+                      {product.media?.[0] ? (
+                        <img
+                          src={product.media?.[0]}
+                          alt={product.name}
+                          className="object-cover min-w-8 w-8 h-8 lg:min-w-11 lg:w-11 lg:h-11 rounded-lg"
+                        />
+                      ) : (
+                        <div className="min-w-8 w-8 h-8 lg:min-w-11 lg:w-11 lg:h-11 rounded-lg bg-[#E0E2E7]"></div>
+                      )}
+                      <div className="flex flex-col gap-1">
+                        {product.name}
+                        <span className="text-xs font-normal text-[#667085]">
+                          {product.variations?.length > 0
+                            ? `${product.variations.length} ${
+                                product.variations.length
+                                  ? "Variant"
+                                  : "Variants"
+                              }`
+                            : "No Variants"}
+                        </span>
+                      </div>
+                    </div>
                   </td>
-                  <td className="p-3 border-b">{product.name}</td>
-                  <td className="p-3 border-b">{product.details.sku}</td>
-                  <td className="p-3 border-b">
+                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#2086BF]">
+                    {product.details.sku}
+                  </td>
+                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
                     {categories[product.categoryId]?.name}
                   </td>
-                  <td className="p-3 border-b">{product.details.quantity}</td>
-                  <td className="p-3 border-b">
+                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
+                    {product.details.quantity}
+                  </td>
+                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
                     ${product.details.basePrice.toFixed(2)}
                   </td>
-                  <td className="p-3 border-b">
-                    {productStatus[product.details.statusId]?.name}
+                  <td className="px-6 py-[18px] border-b text-nowrap">
+                    <span
+                      className={`px-[10px] py-1 rounded-lg ${
+                        productStatus[product.details.statusId]?.name ===
+                        "Published"
+                          ? "bg-[#E9FAF7] text-[#1A9882]"
+                          : productStatus[product.details.statusId]?.name ===
+                            "Draft"
+                          ? "bg-[#F0F1F3] text-[#667085]"
+                          : productStatus[product.details.statusId]?.name ===
+                            "Low Stock"
+                          ? "bg-[#FFF0EA] text-[#F86624]"
+                          : productStatus[product.details.statusId]?.name ===
+                            "Out of Stock"
+                          ? "bg-[#FEECEE] text-[#EB3D4D]"
+                          : "bg-black text-white"
+                      }`}
+                    >
+                      {productStatus[product.details.statusId]?.name}
+                    </span>
                   </td>
-                  <td className="p-3 border-b">{product.details.addedDate}</td>
-                  <td className="p-3 border-b">
+                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
+                    {product.details.addedDate}
+                  </td>
+                  <td className="px-6 py-[18px] border-b text-nowrap">
                     <div className="flex justify-end gap-2">
                       <button
-                        className="group p-0"
+                        className="group p-0 border-0"
                         onClick={() => handleEditProduct(product.id)}
                       >
                         <Image
                           src="/icons/edit.svg"
-                          className="group-hover:brightness-0 duration-500"
+                          className="group-hover:brightness-0 duration-500 min-w-[14px] w-[14px] h-[14px] lg:min-w-4 lg:w-4 lg:h-4"
                           alt="Edit Icon"
                           width={16}
                           height={16}
                         />
                       </button>
                       <button
-                        className="group p-0"
+                        className="group p-0 border-0"
                         onClick={() => handleViewProduct(product.id)}
                       >
                         <Image
                           src="/icons/view.svg"
-                          className="group-hover:brightness-0 duration-500"
+                          className="group-hover:brightness-0 duration-500 min-w-[14px] w-[14px] h-[14px] lg:min-w-4 lg:w-4 lg:h-4"
                           alt="View Icon"
                           width={16}
                           height={16}
                         />
                       </button>
                       <button
-                        className="group p-0"
+                        className="group p-0 border-0"
                         onClick={() => handleDeleteProduct(product.id)}
                       >
                         <Image
                           src="/icons/delete.svg"
-                          className="group-hover:brightness-0 duration-500"
+                          className="group-hover:brightness-0 duration-500 min-w-[14px] w-[14px] h-[14px] lg:min-w-4 lg:w-4 lg:h-4"
                           alt="Delete Icon"
                           width={16}
                           height={16}
@@ -296,8 +360,8 @@ export default function Product() {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-sm text-gray-600">
+          <div className="flex justify-between items-center bg-white px-6 py-[18px]">
+            <span className="text-sm font-medium text-[#667085]">
               Showing 1-{Math.min(10, products.length)} from {products.length}
             </span>
             <div className="flex gap-2">

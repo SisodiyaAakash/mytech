@@ -8,7 +8,7 @@
     "title": "E-Commerce",
     "icon": "/custom-icons/e-commerce.svg",
     "submenu": [
-      { "title": "Product", "path": "/product" },
+      { "title": "Product", "path": "/products" },
       { "title": "Categories", "path": "/categories" },
       { "title": "Orders", "path": "/orders" },
       { "title": "Customer", "path": "/customer" }

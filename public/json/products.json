@@ -24,6 +24,10 @@
         {
           "type": "Color",
           "value": "Black"
+        },
+        {
+          "type": "Color",
+          "value": "White"
         }
       ],
       "shipping": {
@@ -50,7 +54,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s2",
+        "statusId": "s4",
         "addedDate": "2024-12-10"
       },
       "media": ["", "", ""],
@@ -84,7 +88,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s3",
+        "statusId": "s1",
         "addedDate": "2022-10-21"
       },
       "media": ["", "", ""],
@@ -113,7 +117,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s3",
+        "statusId": "s4",
         "addedDate": "2022-10-21"
       },
       "media": ["", "", ""],
@@ -142,7 +146,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s3",
+        "statusId": "s1",
         "addedDate": "2022-10-21"
       },
       "media": ["", "", ""],
@@ -171,7 +175,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s5",
+        "statusId": "s3",
         "addedDate": "2022-09-19"
       },
       "media": ["", "", ""],
@@ -192,7 +196,7 @@
         "description": "",
         "sku": "301600",
         "barcode": "",
-        "quantity": 347,
+        "quantity": 34,
         "basePrice": 400.0,
         "discount": {
           "type": "No Discount",
@@ -200,7 +204,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s3",
+        "statusId": "s2",
         "addedDate": "2022-09-19"
       },
       "media": ["", "", ""],
@@ -229,7 +233,7 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s3",
+        "statusId": "s1",
         "addedDate": "2022-09-19"
       },
       "media": ["", "", ""],
@@ -258,8 +262,8 @@
         },
         "taxClass": "Tax Free",
         "vatAmount": 0,
-        "statusId": "s4",
-        "addedDate": ""
+        "statusId": "s2",
+        "addedDate": "2024-12-10"
       },
       "media": ["", "", ""],
       "variations": [],
@@ -317,11 +321,11 @@
   "productStatus": {
     "s1": {
       "id": "s1",
-      "name": "In Stock"
+      "name": "Published"
     },
     "s2": {
       "id": "s2",
-      "name": "Limited Stock"
+      "name": "Low Stock"
     },
     "s3": {
       "id": "s3",
@@ -329,11 +333,7 @@
     },
     "s4": {
       "id": "s4",
-      "name": "Discontinued"
-    },
-    "s5": {
-      "id": "s5",
-      "name": "Coming Soon"
+      "name": "Draft"
     }
   },
   "orders": [

@@ -141,7 +141,7 @@ body {
     @apply font-sans;
   }
   button {
-    @apply text-sm font-sans font-semibold flex items-center gap-1 rounded-lg px-[14px] py-[10px];
+    @apply text-sm font-sans font-semibold flex items-center gap-1 rounded-lg px-[14px] py-[10px] border;
   }
 }
 
