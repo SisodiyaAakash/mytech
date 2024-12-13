@@ -198,7 +198,15 @@ export default function Product() {
         </div>
 
         {/* Filter Area */}
-        <div className="filter-area p-6"></div>
+        <div className="filter-area py-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="status-toggler">
+              {Object.values(productStatus).map((status) => (
+                <div key={status.id}>{status.name}</div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Product Listing Area */}
         <div className="product-listing rounded-xl shadow-shadow2 overflow-x-auto">
