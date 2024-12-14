@@ -553,19 +553,19 @@ export default function Product() {
 
               <button
                 className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
-                  currentPage !== totalPages
-                    ? "group hover:bg-[#2086BF] hover:border-[#2086BF]"
-                    : "cursor-not-allowed brightness-100"
+                  currentPage === totalPages || filteredProducts.length == 0
+                    ? "cursor-not-allowed brightness-100"
+                    : "group hover:bg-[#2086BF] hover:border-[#2086BF]"
                 }`}
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === totalPages || filteredProducts.length == 0}
               >
                 <Image
                   src="/icons/next.svg"
                   className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
-                    currentPage !== totalPages
-                      ? "group-hover:brightness-[1000]"
-                      : "brightness-150"
+                    currentPage === totalPages || filteredProducts.length == 0
+                      ? "brightness-150"
+                      : "group-hover:brightness-[1000]"
                   }`}
                   alt=">"
                   width={16}
