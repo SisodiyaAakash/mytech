@@ -182,7 +182,7 @@ export default function Product() {
 
   // Handle Add Product Button
   const handleAddProduct = () => {
-    router.push("/product/edit");
+    router.push("/products/edit");
   };
 
   // Handle Edit Product
