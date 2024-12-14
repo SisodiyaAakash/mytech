@@ -27,7 +27,8 @@ export default function Product() {
   });
 
   const [isPriceFilterOpen, setPriceFilterOpen] = useState(false);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 });
+  const [priceSort, setPriceSort] = useState(null);
 
   const [isEditColumnOpen, setEditColumnOpen] = useState(false);
   const [columns, setColumns] = useState([
@@ -89,8 +90,25 @@ export default function Product() {
       });
     }
 
+    if (priceSort) {
+      result.sort((a, b) => {
+        if (priceSort === "highToLow") {
+          return b.details.basePrice - a.details.basePrice;
+        } else {
+          return a.details.basePrice - b.details.basePrice;
+        }
+      });
+    }
+
     setFilteredProducts(result);
-  }, [searchQuery, activeStatus, products, selectedDateRange, priceRange]);
+  }, [
+    searchQuery,
+    activeStatus,
+    products,
+    selectedDateRange,
+    priceRange,
+    priceSort,
+  ]);
 
   // Pagination logic
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -123,12 +141,19 @@ export default function Product() {
 
   // Handle Select All
   const handleSelectAll = () => {
-    if (selectedProducts.size === filteredProducts.length) {
-      setSelectedProducts(new Set());
+    const currentProductIds = currentProducts.map((product) => product.id);
+    if (currentProductIds.every((id) => selectedProducts.has(id))) {
+      setSelectedProducts((prev) => {
+        const newSelected = new Set(prev);
+        currentProductIds.forEach((id) => newSelected.delete(id));
+        return newSelected;
+      });
     } else {
-      setSelectedProducts(
-        new Set(filteredProducts.map((product) => product.id))
-      );
+      setSelectedProducts((prev) => {
+        const newSelected = new Set(prev);
+        currentProductIds.forEach((id) => newSelected.add(id));
+        return newSelected;
+      });
     }
   };
 
@@ -196,10 +221,16 @@ export default function Product() {
     }
 
     if (confirm("Are you sure you want to delete the selected products?")) {
-      setProducts((prev) =>
-        prev.filter((product) => !selectedProducts.has(product.id))
+      const remainingProducts = products.filter(
+        (product) => !selectedProducts.has(product.id)
       );
-      setSelectedProducts(new Set()); // Clear selected products after delete
+      setProducts(remainingProducts);
+      setSelectedProducts(new Set());
+
+      // Adjust current page if it becomes empty
+      if (currentProducts.length === selectedProducts.size && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
     }
   };
 
@@ -232,7 +263,12 @@ export default function Product() {
 
   const handlePriceRangeChange = (e) => {
     const { name, value } = e.target;
+
     setPriceRange((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePriceSortChange = (sortType) => {
+    setPriceSort(sortType);
   };
 
   return (
@@ -394,14 +430,14 @@ export default function Product() {
             <label className="text-sm group flex flex-grow md:flex-grow-0 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#667085] hover:text-black">
               <Image
                 src="/icons/filter.svg"
-                className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
+                className={`group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 ${(!isPriceFilterOpen) ? "" : "brightness-0"}`}
                 alt="Filter Icon"
                 width={20}
                 height={20}
               />
               <button
                 onClick={() => setPriceFilterOpen(!isPriceFilterOpen)}
-                className="p-0 border-0 text-sm font-normal text-[#858D9D] hover:text-black"
+                className={`p-0 border-0 text-sm font-normal hover:text-black ${(!isPriceFilterOpen) ? "text-[#858D9D]" : "text-black"}`}
               >
                 Filter
               </button>
@@ -422,6 +458,26 @@ export default function Product() {
                       onChange={handlePriceRangeChange}
                       className="w-16 lg:w-24 border rounded-md border-[#D0D5DD] outline-0 px-3 py-1"
                     />
+                  </div>
+                  <div className="price-sort flex flex-col gap-1 pt-1 pb-2">
+                    <label className="flex items-center gap-2.5 px-3 py-1.5 text-sm font-medium text-[#484848]">
+                      <input
+                        type="checkbox"
+                        className="min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 rounded-md border-2 border-[#858D9D] outline-0"
+                        checked={priceSort === "highToLow"}
+                        onChange={() => handlePriceSortChange("highToLow")}
+                      />
+                      High to Low
+                    </label>
+                    <label className="flex items-center gap-2.5 px-3 py-1.5 text-sm font-medium text-[#484848]">
+                      <input
+                        type="checkbox"
+                        className="min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 rounded-md border-2 border-[#858D9D] outline-0"
+                        checked={priceSort === "lowToHigh"}
+                        onChange={() => handlePriceSortChange("lowToHigh")}
+                      />
+                      Low to High
+                    </label>
                   </div>
                 </div>
               )}
