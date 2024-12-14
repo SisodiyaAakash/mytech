@@ -252,9 +252,9 @@ export default function Product() {
 
         {/* Filter Area */}
         <div className="filter-area py-6 flex flex-wrap items-center justify-between gap-4 w-full">
-          <ul className="status-list rounded-lg border border-[#E0E2E7] p-1 flex items-center">
+          <ul className="status-list rounded-lg border border-[#E0E2E7] p-1 flex items-center overflow-x-auto">
             <li
-              className={`text-sm font-medium hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500 ${
+              className={`text-sm font-medium hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500 text-nowrap ${
                 !activeStatus
                   ? "bg-[#EAF8FF] text-[#2086BF]"
                   : "bg-transparent text-[#667085]"
@@ -265,7 +265,7 @@ export default function Product() {
             </li>
             {Object.values(productStatus).map((status) => (
               <li
-                className={`text-sm font-medium hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500 ${
+                className={`text-sm font-medium hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500 text-nowrap ${
                   activeStatus === status.id
                     ? "bg-[#EAF8FF] text-[#2086BF]"
                     : "bg-transparent text-[#667085]"
@@ -278,8 +278,8 @@ export default function Product() {
             ))}
           </ul>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <label className="group w-52 flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white">
+          <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
+            <label className="group w-full md:w-52 flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white">
               <Image
                 src="/icons/search.svg"
                 className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
@@ -295,7 +295,7 @@ export default function Product() {
                 className="text-sm font-medium outline-0 bg-transparent flex-grow placeholder:text-[#858D9D]"
               />
             </label>
-            <label className="group flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+            <label className="group flex w-1/2 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
               <Image
                 src="/icons/calendar.svg"
                 className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
@@ -312,7 +312,7 @@ export default function Product() {
                 placeholder="Select Dates"
               />
             </label>
-            <label className="group flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+            <label className="group flex flex-grow md:flex-grow-0 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
               <Image
                 src="/icons/filter.svg"
                 className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
@@ -322,7 +322,7 @@ export default function Product() {
               />
               Filters
             </label>
-            <label className="group flex items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+            <label className="group flex md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
               <Image
                 src="/icons/column.svg"
                 className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-3.5 lg:w-4 lg:h-4"
@@ -335,7 +335,7 @@ export default function Product() {
           </div>
         </div>
         {/* Product Listing Area */}
-        <div className="product-listing rounded-xl shadow-shadow2 overflow-x-auto">
+        <div className="product-listing rounded-t-xl shadow-shadow2 overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[600px]">
             <thead>
               <tr className="bg-white">
@@ -502,77 +502,79 @@ export default function Product() {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-between items-center bg-white px-6 py-[18px]">
-            <span className="text-sm font-medium text-[#667085]">
-              Showing {indexOfFirstProduct + 1} -{" "}
-              {Math.min(indexOfLastProduct, filteredProducts.length)} of{" "}
-              {filteredProducts.length}
-            </span>
-            <div className="flex gap-2">
-              <button
-                className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+        </div>
+        <div className="flex justify-between rounded-b-xl items-center bg-white px-6 py-[18px]">
+          <span className="text-sm font-medium text-[#667085]">
+            Showing {indexOfFirstProduct + 1} -{" "}
+            {Math.min(indexOfLastProduct, filteredProducts.length)} of{" "}
+            {filteredProducts.length}
+          </span>
+          <div className="flex gap-2">
+            <button
+              className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+                currentPage !== 1
+                  ? "group hover:bg-[#2086BF] hover:border-[#2086BF]"
+                  : "cursor-not-allowed brightness-100"
+              }`}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <Image
+                src="/icons/previous.svg"
+                className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
                   currentPage !== 1
-                    ? "group hover:bg-[#2086BF] hover:border-[#2086BF]"
-                    : "cursor-not-allowed brightness-100"
+                    ? "group-hover:brightness-[1000]"
+                    : "brightness-150"
                 }`}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <Image
-                  src="/icons/previous.svg"
-                  className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
-                    currentPage !== 1
-                      ? "group-hover:brightness-[1000]"
-                      : "brightness-150"
-                  }`}
-                  alt="<"
-                  width={16}
-                  height={16}
-                />
-              </button>
+                alt="<"
+                width={16}
+                height={16}
+              />
+            </button>
 
-              {/* Page Number Buttons */}
+            {/* Page Number Buttons */}
 
-              {totalPages > 1 && (
-                <div className="flex items-center gap-2">
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                      key={index}
-                      className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 text-sm font-medium ${
-                        currentPage === index + 1
-                          ? "bg-[#2086BF] text-white"
-                          : "bg-[#EAF8FF] text-[#667085] hover:bg-[#2086BF] hover:border-[#2086BF] hover:text-white"
-                      } duration-500 rounded`}
-                      onClick={() => handlePageChange(index + 1)}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-                </div>
-              )}
+            {totalPages > 1 && (
+              <div className="flex items-center gap-2">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 text-sm font-medium ${
+                      currentPage === index + 1
+                        ? "bg-[#2086BF] text-white"
+                        : "bg-[#EAF8FF] text-[#667085] hover:bg-[#2086BF] hover:border-[#2086BF] hover:text-white"
+                    } duration-500 rounded`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            )}
 
-              <button
-                className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+            <button
+              className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+                currentPage === totalPages || filteredProducts.length == 0
+                  ? "cursor-not-allowed brightness-100"
+                  : "group hover:bg-[#2086BF] hover:border-[#2086BF]"
+              }`}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={
+                currentPage === totalPages || filteredProducts.length == 0
+              }
+            >
+              <Image
+                src="/icons/next.svg"
+                className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
                   currentPage === totalPages || filteredProducts.length == 0
-                    ? "cursor-not-allowed brightness-100"
-                    : "group hover:bg-[#2086BF] hover:border-[#2086BF]"
+                    ? "brightness-150"
+                    : "group-hover:brightness-[1000]"
                 }`}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages || filteredProducts.length == 0}
-              >
-                <Image
-                  src="/icons/next.svg"
-                  className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
-                    currentPage === totalPages || filteredProducts.length == 0
-                      ? "brightness-150"
-                      : "group-hover:brightness-[1000]"
-                  }`}
-                  alt=">"
-                  width={16}
-                  height={16}
-                />
-              </button>
-            </div>
+                alt=">"
+                width={16}
+                height={16}
+              />
+            </button>
           </div>
         </div>
 
