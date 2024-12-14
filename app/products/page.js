@@ -14,6 +14,8 @@ export default function Product() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeStatus, setActiveStatus] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
   const router = useRouter();
 
   useEffect(() => {
@@ -51,6 +53,22 @@ export default function Product() {
 
     setFilteredProducts(result);
   }, [searchQuery, activeStatus, products]);
+
+  // Pagination logic
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   // Handle product selection
   const handleProductSelection = (productId) => {
@@ -316,7 +334,6 @@ export default function Product() {
             </label>
           </div>
         </div>
-
         {/* Product Listing Area */}
         <div className="product-listing rounded-xl shadow-shadow2 overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[600px]">
@@ -357,7 +374,7 @@ export default function Product() {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map((product) => (
+              {currentProducts.map((product) => (
                 <tr
                   key={product.id}
                   className={`bg-white border-[#EAF8FF] ${
@@ -487,22 +504,69 @@ export default function Product() {
           </table>
           <div className="flex justify-between items-center bg-white px-6 py-[18px]">
             <span className="text-sm font-medium text-[#667085]">
-              Showing 1-{Math.min(10, products.length)} from {products.length}
+              Showing {indexOfFirstProduct + 1} -{" "}
+              {Math.min(indexOfLastProduct, filteredProducts.length)} of{" "}
+              {filteredProducts.length}
             </span>
             <div className="flex gap-2">
-              <button className="px-2 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300">
+              <button
+                className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+                  currentPage !== 1
+                    ? "group hover:bg-[#2086BF] hover:border-[#2086BF]"
+                    : "cursor-not-allowed brightness-100"
+                }`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
                 <Image
                   src="/icons/previous.svg"
-                  className="hover:brightness-0 duration-500"
+                  className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
+                    currentPage !== 1
+                      ? "group-hover:brightness-[1000]"
+                      : "brightness-150"
+                  }`}
                   alt="<"
                   width={16}
                   height={16}
                 />
               </button>
-              <button className="px-2 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300">
+
+              {/* Page Number Buttons */}
+
+              {totalPages > 1 && (
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index}
+                      className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 text-sm font-medium ${
+                        currentPage === index + 1
+                          ? "bg-[#2086BF] text-white"
+                          : "bg-[#EAF8FF] text-[#667085] hover:bg-[#2086BF] hover:border-[#2086BF] hover:text-white"
+                      } duration-500 rounded`}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <button
+                className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+                  currentPage !== totalPages
+                    ? "group hover:bg-[#2086BF] hover:border-[#2086BF]"
+                    : "cursor-not-allowed brightness-100"
+                }`}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
                 <Image
                   src="/icons/next.svg"
-                  className="hover:brightness-0 duration-500"
+                  className={`duration-400 min-w-3 w-3 lg:min-w-4 lg:w-4 ${
+                    currentPage !== totalPages
+                      ? "group-hover:brightness-[1000]"
+                      : "brightness-150"
+                  }`}
                   alt=">"
                   width={16}
                   height={16}
