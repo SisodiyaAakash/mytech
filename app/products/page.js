@@ -73,16 +73,6 @@ export default function Product() {
       );
     }
 
-    if (selectedDateRange.startDate && selectedDateRange.endDate) {
-      result = result.filter((product) => {
-        const addedDate = new Date(product.details.addedDate);
-        return (
-          addedDate >= selectedDateRange.startDate &&
-          addedDate <= selectedDateRange.endDate
-        );
-      });
-    }
-
     if (priceRange.min !== null && priceRange.max !== null) {
       result = result.filter((product) => {
         const price = product.details.basePrice;
@@ -250,6 +240,24 @@ export default function Product() {
   };
 
   const handleApplyDate = () => {
+    const { startDate, endDate } = selectedDateRange;
+    if (startDate && endDate) {
+      const filtered = products.filter((product) => {
+        const addedDate = new Date(product.details.addedDate);
+        return addedDate >= startDate && addedDate <= endDate;
+      });
+      setFilteredProducts(filtered);
+    }
+    setDatePickerOpen(false);
+  };
+
+  const handleCancelDate = () => {
+    setSelectedDateRange({
+      startDate: null,
+      endDate: null,
+      key: "selection",
+    });
+    setFilteredProducts(products);
     setDatePickerOpen(false);
   };
 
@@ -386,7 +394,7 @@ export default function Product() {
                 className="text-sm font-normal outline-0 bg-transparent flex-grow placeholder:text-[#858D9D]"
               />
             </label>
-            <label className="group flex w-1/2 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white cursor-pointer">
+            <div className="group flex w-1/2 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white cursor-pointer">
               <Image
                 src="/icons/calendar.svg"
                 className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
@@ -405,14 +413,19 @@ export default function Product() {
                   <div className="bg-white rounded-xl pt-2 lg:pt-4">
                     <DateRangePicker
                       ranges={[selectedDateRange]}
-                      onChange={(ranges) =>
-                        setSelectedDateRange(ranges.selection)
-                      }
+                      onChange={(ranges) => {
+                        const { startDate, endDate } = ranges.selection;
+                        setSelectedDateRange({
+                          ...selectedDateRange,
+                          startDate,
+                          endDate,
+                        });
+                      }}
                     />
                     <div className="actions p-2 lg:p-4 flex items-center justify-between border-t">
                       <button
                         className="text-[#344054] border-[#D0D5DD] hover:border-[#344054] hover:bg-[#344054] hover:text-white"
-                        onClick={() => setDatePickerOpen(false)}
+                        onClick={handleCancelDate}
                       >
                         Cancel
                       </button>
@@ -426,18 +439,22 @@ export default function Product() {
                   </div>
                 </div>
               )}
-            </label>
-            <label className="text-sm group flex flex-grow md:flex-grow-0 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#667085] hover:text-black">
+            </div>
+            <div className="text-sm group flex flex-grow md:flex-grow-0 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#667085] hover:text-black">
               <Image
                 src="/icons/filter.svg"
-                className={`group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 ${(!isPriceFilterOpen) ? "" : "brightness-0"}`}
+                className={`group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5 ${
+                  !isPriceFilterOpen ? "" : "brightness-0"
+                }`}
                 alt="Filter Icon"
                 width={20}
                 height={20}
               />
               <button
                 onClick={() => setPriceFilterOpen(!isPriceFilterOpen)}
-                className={`p-0 border-0 text-sm font-normal hover:text-black ${(!isPriceFilterOpen) ? "text-[#858D9D]" : "text-black"}`}
+                className={`p-0 border-0 text-sm font-normal hover:text-black ${
+                  !isPriceFilterOpen ? "text-[#858D9D]" : "text-black"
+                }`}
               >
                 Filter
               </button>
@@ -481,8 +498,8 @@ export default function Product() {
                   </div>
                 </div>
               )}
-            </label>
-            <label className="text-sm group flex w-full md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#858D9D] hover:text-black">
+            </div>
+            <div className="text-sm group flex w-full md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#858D9D] hover:text-black">
               <Image
                 src="/icons/column.svg"
                 className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-3.5 lg:w-4 lg:h-4"
@@ -529,7 +546,7 @@ export default function Product() {
                   </ul>
                 </div>
               )}
-            </label>
+            </div>
           </div>
         </div>
         {/* Product Listing Area */}
