@@ -39,7 +39,7 @@ export default function EditProduct() {
             </nav>
           </div>
           <div className="flex gap-4">
-            <button className="group export-btn bg-transparent border- hover:bg-[#858D9D] text-[#858D9D] border-[#858D9D] hover:text-white duration-500">
+            <button className="group export-btn bg-transparent border- hover:bg-[#858D9D] text-[#858D9D] border-[#858D9D] hover:text-white">
               <Image
                 src="/icons/close.svg"
                 className="group-hover:brightness-[1000] duration-300"
@@ -49,7 +49,7 @@ export default function EditProduct() {
               />
               Cancel
             </button>
-            <button className="add-product-btn bg-[#2086BF] text-white border border-[#2086BF] duration-500 opacity-65 hover:opacity-100">
+            <button className="add-product-btn bg-[#2086BF] text-white border border-[#2086BF] opacity-65 hover:opacity-100">
               <Image
                 src="/icons/save.svg"
                 className="brightness-[1000]"

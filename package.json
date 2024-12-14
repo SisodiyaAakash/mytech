@@ -13,7 +13,9 @@
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^19.0.0"
+    "react-date-range": "^2.0.1",
+    "react-dom": "^19.0.0",
+    "react-slider": "^2.0.6"
   },
   "devDependencies": {
     "postcss": "^8",

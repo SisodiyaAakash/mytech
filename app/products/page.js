@@ -4,6 +4,9 @@ import Image from "next/image";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 export default function Product() {
   const [products, setProducts] = useState([]);
@@ -16,6 +19,24 @@ export default function Product() {
   const [activeStatus, setActiveStatus] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(3);
+  const [isDatePickerOpen, setDatePickerOpen] = useState(false);
+  const [selectedDateRange, setSelectedDateRange] = useState({
+    startDate: null,
+    endDate: null,
+    key: "selection",
+  });
+
+  const [isPriceFilterOpen, setPriceFilterOpen] = useState(false);
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
+
+  const [isEditColumnOpen, setEditColumnOpen] = useState(false);
+  const [columns, setColumns] = useState([
+    { name: "Payment Type", visible: true },
+    { name: "Bank Name", visible: true },
+    { name: "Discount", visible: true },
+    { name: "Delivery Status", visible: true },
+    { name: "Delivery Date", visible: true },
+  ]);
   const router = useRouter();
 
   useEffect(() => {
@@ -51,8 +72,25 @@ export default function Product() {
       );
     }
 
+    if (selectedDateRange.startDate && selectedDateRange.endDate) {
+      result = result.filter((product) => {
+        const addedDate = new Date(product.details.addedDate);
+        return (
+          addedDate >= selectedDateRange.startDate &&
+          addedDate <= selectedDateRange.endDate
+        );
+      });
+    }
+
+    if (priceRange.min !== null && priceRange.max !== null) {
+      result = result.filter((product) => {
+        const price = product.details.basePrice;
+        return price >= priceRange.min && price <= priceRange.max;
+      });
+    }
+
     setFilteredProducts(result);
-  }, [searchQuery, activeStatus, products]);
+  }, [searchQuery, activeStatus, products, selectedDateRange, priceRange]);
 
   // Pagination logic
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -180,6 +218,23 @@ export default function Product() {
     setActiveStatus(statusId === activeStatus ? null : statusId);
   };
 
+  const handleApplyDate = () => {
+    setDatePickerOpen(false);
+  };
+
+  const handleToggleColumn = (columnName) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) =>
+        col.name === columnName ? { ...col, visible: !col.visible } : col
+      )
+    );
+  };
+
+  const handlePriceRangeChange = (e) => {
+    const { name, value } = e.target;
+    setPriceRange((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <>
       <Head>
@@ -205,7 +260,7 @@ export default function Product() {
           </div>
           <div className="flex gap-4">
             <button
-              className="group export-btn bg-[#EAF8FF] hover:bg-[#2086BF] text-[#2086BF] hover:text-white duration-500"
+              className="group export-btn bg-[#EAF8FF] hover:bg-[#2086BF] text-[#2086BF] hover:text-white"
               onClick={handleExport}
             >
               <Image
@@ -218,7 +273,7 @@ export default function Product() {
               Export
             </button>
             <button
-              className="group add-product-btn bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border-[#2086BF] duration-500"
+              className="group add-product-btn bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border-[#2086BF]"
               onClick={handleAddProduct}
             >
               <Image
@@ -234,7 +289,7 @@ export default function Product() {
             {/* Delete Selected Button */}
             {selectedProducts.size > 1 && (
               <button
-                className="delete-btn bg-[#EB3D4D] hover:bg-[#ab1423] text-white duration-500"
+                className="delete-btn bg-[#EB3D4D] hover:bg-[#ab1423] text-white"
                 onClick={handleDeleteSelected}
               >
                 <Image
@@ -292,10 +347,10 @@ export default function Product() {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Search product..."
-                className="text-sm font-medium outline-0 bg-transparent flex-grow placeholder:text-[#858D9D]"
+                className="text-sm font-normal outline-0 bg-transparent flex-grow placeholder:text-[#858D9D]"
               />
             </label>
-            <label className="group flex w-1/2 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+            <label className="group flex w-1/2 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white cursor-pointer">
               <Image
                 src="/icons/calendar.svg"
                 className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
@@ -303,16 +358,40 @@ export default function Product() {
                 width={20}
                 height={20}
               />
-              Select Date
-              <input
-                className="invisible absolute w-full h-full"
-                id="datepicker"
-                name="datepicker"
-                type="date"
-                placeholder="Select Dates"
-              />
+              <button
+                onClick={() => setDatePickerOpen(!isDatePickerOpen)}
+                className="p-0 border-0 text-sm font-normal text-[#858D9D] hover:text-black"
+              >
+                Select Date
+              </button>
+              {isDatePickerOpen && (
+                <div className="date-popup fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md z-50">
+                  <div className="bg-white rounded-xl pt-2 lg:pt-4">
+                    <DateRangePicker
+                      ranges={[selectedDateRange]}
+                      onChange={(ranges) =>
+                        setSelectedDateRange(ranges.selection)
+                      }
+                    />
+                    <div className="actions p-2 lg:p-4 flex items-center justify-between border-t">
+                      <button
+                        className="text-[#344054] border-[#D0D5DD] hover:border-[#344054] hover:bg-[#344054] hover:text-white"
+                        onClick={() => setDatePickerOpen(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="text-white border-[#2086BF] bg-[#2086BF] hover:bg-transparent hover:text-[#2086BF]"
+                        onClick={handleApplyDate}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </label>
-            <label className="group flex flex-grow md:flex-grow-0 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+            <label className="text-sm group flex flex-grow md:flex-grow-0 md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#667085] hover:text-black">
               <Image
                 src="/icons/filter.svg"
                 className="group-hover:brightness-0 duration-500 min-w-4 w-4 h-4 lg:min-w-5 lg:w-5 lg:h-5"
@@ -320,9 +399,34 @@ export default function Product() {
                 width={20}
                 height={20}
               />
-              Filters
+              <button
+                onClick={() => setPriceFilterOpen(!isPriceFilterOpen)}
+                className="p-0 border-0 text-sm font-normal text-[#858D9D] hover:text-black"
+              >
+                Filter
+              </button>
+              {isPriceFilterOpen && (
+                <div className="min-w-full w-max dropdown-menu absolute bg-white rounded-lg p-2 z-10 bottom-0 right-0 md:left-0 translate-y-full shadow-shadow2">
+                  <div className="price-range grid grid-cols-2 gap-2">
+                    <input
+                      type="number"
+                      name="min"
+                      value={priceRange.min}
+                      onChange={handlePriceRangeChange}
+                      className="w-16 lg:w-24 border rounded-md border-[#D0D5DD] outline-0 px-3 py-1"
+                    />
+                    <input
+                      type="number"
+                      name="max"
+                      value={priceRange.max}
+                      onChange={handlePriceRangeChange}
+                      className="w-16 lg:w-24 border rounded-md border-[#D0D5DD] outline-0 px-3 py-1"
+                    />
+                  </div>
+                </div>
+              )}
             </label>
-            <label className="group flex md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer">
+            <label className="text-sm group flex w-full md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#858D9D] hover:text-black">
               <Image
                 src="/icons/column.svg"
                 className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-3.5 lg:w-4 lg:h-4"
@@ -330,7 +434,45 @@ export default function Product() {
                 width={16}
                 height={16}
               />
-              Edit Column
+              <button
+                onClick={() => setEditColumnOpen(!isEditColumnOpen)}
+                className="p-0 border-0 text-sm font-normal text-[#858D9D] hover:text-black"
+              >
+                Edit Column
+              </button>
+              {isEditColumnOpen && (
+                <div className="min-w-full w-max edit-column-dropdown dropdown-menu absolute bg-white rounded-lg z-10 bottom-0 left-0 md:right-0 translate-y-full shadow-shadow2">
+                  <button
+                    className="py-1 px-3 border-0 rounded-none w-full text-right justify-end text-xs text-[#2086BF] font-medium bg-[#EAF8FF]"
+                    onClick={() =>
+                      setColumns(
+                        columns.map((col) => ({ ...col, visible: true }))
+                      )
+                    }
+                  >
+                    Reset Columns
+                  </button>
+                  <input
+                    type="text"
+                    placeholder="Find an Columns"
+                    className="column-search my-2 mx-3 py-2 px-3 border rounded-lg border-[#2086BF]"
+                  />
+                  <ul className="column-list p-2">
+                    {columns.map((col) => (
+                      <li key={col.name}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={col.visible}
+                            onChange={() => handleToggleColumn(col.name)}
+                          />
+                          {col.name}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </label>
           </div>
         </div>
@@ -511,7 +653,7 @@ export default function Product() {
           </span>
           <div className="flex gap-2">
             <button
-              className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+              className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] ${
                 currentPage !== 1
                   ? "group hover:bg-[#2086BF] hover:border-[#2086BF]"
                   : "cursor-not-allowed brightness-100"
@@ -543,7 +685,7 @@ export default function Product() {
                       currentPage === index + 1
                         ? "bg-[#2086BF] text-white"
                         : "bg-[#EAF8FF] text-[#667085] hover:bg-[#2086BF] hover:border-[#2086BF] hover:text-white"
-                    } duration-500 rounded`}
+                    } rounded-lg`}
                     onClick={() => handlePageChange(index + 1)}
                   >
                     {index + 1}
@@ -553,7 +695,7 @@ export default function Product() {
             )}
 
             <button
-              className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] duration-500 ${
+              className={`p-0 border-[#EAF8FF] min-w-7 w-7 lg:min-w-8 lg:w-8 min-h-7 h-7 lg:min-h-8 lg:h-8 bg-[#EAF8FF] ${
                 currentPage === totalPages || filteredProducts.length == 0
                   ? "cursor-not-allowed brightness-100"
                   : "group hover:bg-[#2086BF] hover:border-[#2086BF]"
@@ -611,7 +753,7 @@ export default function Product() {
               </div>
               <div className="mt-4">
                 <button
-                  className="bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border border-[#2086BF] duration-500"
+                  className="bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border border-[#2086BF]"
                   onClick={handleCloseModal}
                 >
                   Close

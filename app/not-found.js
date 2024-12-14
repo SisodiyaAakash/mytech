@@ -30,7 +30,7 @@ export default function EditProduct() {
         </p>
         <a
           href="/"
-          className="mytech-btn bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border-[#2086BF] duration-500"
+          className="mytech-btn bg-[#2086BF] hover:bg-transparent text-white hover:text-[#2086BF] border-[#2086BF]"
         >
           Go back home
         </a>
