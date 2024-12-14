@@ -11,6 +11,9 @@ export default function Product() {
   const [productStatus, setProductStatus] = useState({});
   const [selectedProducts, setSelectedProducts] = useState(new Set());
   const [viewProduct, setViewProduct] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [activeStatus, setActiveStatus] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,6 +32,26 @@ export default function Product() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    let result = products;
+
+    if (searchQuery) {
+      result = result.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.details.sku.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (activeStatus) {
+      result = result.filter(
+        (product) => product.details.statusId === activeStatus
+      );
+    }
+
+    setFilteredProducts(result);
+  }, [searchQuery, activeStatus, products]);
+
   // Handle product selection
   const handleProductSelection = (productId) => {
     setSelectedProducts((prev) => {
@@ -44,10 +67,12 @@ export default function Product() {
 
   // Handle Select All
   const handleSelectAll = () => {
-    if (selectedProducts.size === products.length) {
+    if (selectedProducts.size === filteredProducts.length) {
       setSelectedProducts(new Set());
     } else {
-      setSelectedProducts(new Set(products.map((product) => product.id)));
+      setSelectedProducts(
+        new Set(filteredProducts.map((product) => product.id))
+      );
     }
   };
 
@@ -60,7 +85,7 @@ export default function Product() {
 
     const csvData = [
       ["Product", "SKU", "Category", "Stock", "Price", "Status", "Added"],
-      ...products
+      ...filteredProducts
         .filter((product) => selectedProducts.has(product.id))
         .map((product) => [
           product.name,
@@ -125,6 +150,16 @@ export default function Product() {
   // Handle Close Modal
   const handleCloseModal = () => {
     setViewProduct(null); // Close the modal by resetting the product
+  };
+
+  // Handle Search Change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Handle Status Filter
+  const handleStatusFilter = (statusId) => {
+    setActiveStatus(statusId === activeStatus ? null : statusId);
   };
 
   return (
@@ -200,13 +235,25 @@ export default function Product() {
         {/* Filter Area */}
         <div className="filter-area py-6 flex flex-wrap items-center justify-between gap-4 w-full">
           <ul className="status-list rounded-lg border border-[#E0E2E7] p-1 flex items-center">
-            <li className="active text-sm font-medium bg-transparent text-[#667085] hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500">
+            <li
+              className={`text-sm font-medium hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500 ${
+                !activeStatus
+                  ? "bg-[#EAF8FF] text-[#2086BF]"
+                  : "bg-transparent text-[#667085]"
+              }`}
+              onClick={() => handleStatusFilter(null)}
+            >
               All Product
             </li>
             {Object.values(productStatus).map((status) => (
               <li
-                className="text-sm font-medium bg-transparent text-[#667085] hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500"
+                className={`text-sm font-medium hover:bg-[#EAF8FF] hover:text-[#2086BF] px-3 py-1.5 cursor-pointer duration-500 ${
+                  activeStatus === status.id
+                    ? "bg-[#EAF8FF] text-[#2086BF]"
+                    : "bg-transparent text-[#667085]"
+                }`}
                 key={status.id}
+                onClick={() => handleStatusFilter(status.id)}
               >
                 {status.name}
               </li>
@@ -224,6 +271,8 @@ export default function Product() {
               />
               <input
                 type="search"
+                value={searchQuery}
+                onChange={handleSearchChange}
                 placeholder="Search product..."
                 className="text-sm font-medium outline-0 bg-transparent flex-grow placeholder:text-[#858D9D]"
               />
@@ -308,7 +357,7 @@ export default function Product() {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <tr
                   key={product.id}
                   className={`bg-white border-[#EAF8FF] ${
@@ -382,8 +431,16 @@ export default function Product() {
                     </span>
                   </td>
                   <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
-                    {product.details.addedDate}
+                    {new Date(product.details.addedDate).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
                   </td>
+
                   <td className="px-6 py-[18px] border-b text-nowrap">
                     <div className="flex justify-end gap-2">
                       <button
@@ -455,7 +512,7 @@ export default function Product() {
           </div>
         </div>
 
-        {/* Modal for Viewing Product */}
+        {/* Modal for viewing product details */}
         {viewProduct && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md z-50">
             <div className="bg-white rounded shadow-lg p-6 w-1/2">
