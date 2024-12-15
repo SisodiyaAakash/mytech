@@ -317,8 +317,8 @@ export default function Product() {
           product.name || "",
           product.details.sku || "",
           categories[product.categoryId]?.name || "",
-          product.details.quantity || "",
-          product.details.basePrice.toFixed(2) || "",
+          product.details.quantity || 0,
+          product.details.basePrice.toFixed(2) || 0,
           productStatus[product.details.statusId]?.name || "",
           product.details.addedDate || "",
         ]),
@@ -354,7 +354,12 @@ export default function Product() {
   // Handle Delete Specific Product
   const handleDeleteProduct = (id) => {
     if (confirm("Are you sure you want to delete this product?")) {
-      setProducts((prev) => prev.filter((product) => product.id !== id));
+      const updatedProducts = products.filter((product) => product.id !== id);
+      setProducts(updatedProducts);
+
+      // Update localStorage
+      localStorage.setItem("products", JSON.stringify(updatedProducts));
+      alert(`Product with ID ${id} has been deleted.`);
     }
   };
 
@@ -366,16 +371,16 @@ export default function Product() {
     }
 
     if (confirm("Are you sure you want to delete the selected products?")) {
-      const remainingProducts = products.filter(
+      const updatedProducts = products.filter(
         (product) => !selectedProducts.has(product.id)
       );
-      setProducts(remainingProducts);
-      setSelectedProducts(new Set());
 
-      // Adjust current page if it becomes empty
-      if (currentProducts.length === selectedProducts.size && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-      }
+      setProducts(updatedProducts);
+
+      // Update localStorage
+      localStorage.setItem("products", JSON.stringify(updatedProducts));
+      alert("Selected products have been deleted.");
+      setSelectedProducts(new Set());
     }
   };
 
@@ -776,12 +781,12 @@ export default function Product() {
                             case "Category":
                               return categories[product.categoryId]?.name || "";
                             case "Stock":
-                              return product.details.quantity || "";
+                              return product.details.quantity;
                             case "Price":
                               return `$${
                                 product.details.basePrice
                                   ? product.details.basePrice.toFixed(2)
-                                  : ""
+                                  : 0
                               }`;
                             case "Status":
                               return (

@@ -75,11 +75,11 @@ export default function EditProduct() {
           if (product) {
             setIsEditMode(true);
             setFormData({
-              name: product.name,
+              name: product.name || "",
               description: product.details.description || "",
-              basePrice: product.details.basePrice || "",
+              basePrice: product.details.basePrice || 0,
               sku: product.details.sku || "",
-              quantity: product.details.quantity || "",
+              quantity: product.details.quantity || 0,
               categoryId: product.categoryId || "",
               statusId: product.details.statusId || "",
               discountType: product.details.discount.type || "No Discount",
