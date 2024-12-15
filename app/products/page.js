@@ -7,6 +7,120 @@ import { useRouter } from "next/navigation";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+function SortableItem({ id, name, visible, onToggleVisibility }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <li
+      className="group flex items-center gap-2 text-[#667085] hover:text-black"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+      <Image
+        src="/icons/sort.svg"
+        className="group-hover:brightness-0 duration-500"
+        alt="Sort Icon"
+        width={16}
+        height={16}
+      />
+      <span>{name}</span>
+      <button
+        className="group p-0 ml-auto bg-transparent border-0"
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggleVisibility(name);
+        }}
+      >
+        <Image
+          src="/icons/hide.svg"
+          className="group-hover:brightness-0 duration-500"
+          alt="Hide Icon"
+          width={16}
+          height={16}
+        />
+      </button>
+    </li>
+  );
+}
+
+function EditColumn({ columns, setColumns }) {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = columns.findIndex((col) => col.name === active.id);
+      const newIndex = columns.findIndex((col) => col.name === over.id);
+
+      const updatedColumns = [...columns];
+      const [movedItem] = updatedColumns.splice(oldIndex, 1);
+      updatedColumns.splice(newIndex, 0, movedItem);
+
+      setColumns(updatedColumns);
+    }
+  };
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={columns.map((col) => col.name)}
+        strategy={verticalListSortingStrategy}
+      >
+        <ul className="p-2 flex flex-col gap-1">
+          {columns.map((col) => (
+            <SortableItem
+              key={col.name}
+              id={col.name}
+              name={col.name}
+              visible={col.visible}
+              onToggleVisibility={(name) =>
+                setColumns((prevColumns) =>
+                  prevColumns.map((c) =>
+                    c.name === name ? { ...c, visible: !c.visible } : c
+                  )
+                )
+              }
+            />
+          ))}
+        </ul>
+      </SortableContext>
+    </DndContext>
+  );
+}
 
 export default function Product() {
   const [products, setProducts] = useState([]);
@@ -32,12 +146,14 @@ export default function Product() {
 
   const [isEditColumnOpen, setEditColumnOpen] = useState(false);
   const [columns, setColumns] = useState([
-    { name: "Payment Type", visible: true },
-    { name: "Bank Name", visible: true },
-    { name: "Discount", visible: true },
-    { name: "Delivery Status", visible: true },
-    { name: "Delivery Date", visible: true },
+    { name: "SKU", visible: true },
+    { name: "Category", visible: true },
+    { name: "Stock", visible: true },
+    { name: "Price", visible: true },
+    { name: "Status", visible: true },
+    { name: "Added", visible: true },
   ]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -187,7 +303,7 @@ export default function Product() {
 
   // Handle Edit Product
   const handleEditProduct = (id) => {
-    router.push(`/product/edit?id=${id}`);
+    router.push(`/products/edit?id=${id}`);
   };
 
   // Handle View Product (opens the modal)
@@ -502,48 +618,25 @@ export default function Product() {
             <div className="text-sm group flex w-full md:w-auto items-center gap-1 px-3 py-2.5 rounded-lg border border-[#E0E2E7] bg-white relative cursor-pointer text-[#858D9D] hover:text-black">
               <Image
                 src="/icons/column.svg"
-                className="group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-3.5 lg:w-4 lg:h-4"
+                className={`group-hover:brightness-0 duration-500 min-w-3.5 w-3.5 h-3.5 lg:min-w-3.5 lg:w-4 lg:h-4 ${
+                  isEditColumnOpen ? "brightness-0" : ""
+                }`}
                 alt="Column Icon"
                 width={16}
                 height={16}
               />
+
               <button
                 onClick={() => setEditColumnOpen(!isEditColumnOpen)}
-                className="p-0 border-0 text-sm font-normal text-[#858D9D] hover:text-black"
+                className={`p-0 border-0 text-sm font-normal hover:text-black ${
+                  isEditColumnOpen ? "text-black" : "text-[#858D9D]"
+                }`}
               >
                 Edit Column
               </button>
               {isEditColumnOpen && (
                 <div className="min-w-full w-max edit-column-dropdown dropdown-menu absolute bg-white rounded-lg z-10 bottom-0 left-0 md:right-0 translate-y-full shadow-shadow2">
-                  <button
-                    className="py-1 px-3 border-0 rounded-none w-full text-right justify-end text-xs text-[#2086BF] font-medium bg-[#EAF8FF]"
-                    onClick={() =>
-                      setColumns(
-                        columns.map((col) => ({ ...col, visible: true }))
-                      )
-                    }
-                  >
-                    Reset Columns
-                  </button>
-                  <input
-                    type="text"
-                    placeholder="Find an Columns"
-                    className="column-search my-2 mx-3 py-2 px-3 border rounded-lg border-[#2086BF]"
-                  />
-                  <ul className="column-list p-2">
-                    {columns.map((col) => (
-                      <li key={col.name}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={col.visible}
-                            onChange={() => handleToggleColumn(col.name)}
-                          />
-                          {col.name}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
+                  <EditColumn columns={columns} setColumns={setColumns} />
                 </div>
               )}
             </div>
@@ -565,24 +658,16 @@ export default function Product() {
                     Product
                   </div>
                 </th>
-                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
-                  SKU
-                </th>
-                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
-                  Category
-                </th>
-                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
-                  Stock
-                </th>
-                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
-                  Price
-                </th>
-                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
-                  Status
-                </th>
-                <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]">
-                  Added
-                </th>
+                {columns
+                  .filter((col) => col.visible)
+                  .map((col) => (
+                    <th
+                      className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C]"
+                      key={col.name}
+                    >
+                      {col.name}
+                    </th>
+                  ))}
                 <th className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#1D1F2C] text-right">
                   Action
                 </th>
@@ -629,49 +714,67 @@ export default function Product() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#2086BF]">
-                    {product.details.sku}
-                  </td>
-                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
-                    {categories[product.categoryId]?.name}
-                  </td>
-                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
-                    {product.details.quantity}
-                  </td>
-                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
-                    ${product.details.basePrice.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-[18px] border-b text-nowrap">
-                    <span
-                      className={`px-2.5 py-1 rounded-lg ${
-                        productStatus[product.details.statusId]?.name ===
-                        "Published"
-                          ? "bg-[#E9FAF7] text-[#1A9882]"
-                          : productStatus[product.details.statusId]?.name ===
-                            "Draft"
-                          ? "bg-[#F0F1F3] text-[#667085]"
-                          : productStatus[product.details.statusId]?.name ===
-                            "Low Stock"
-                          ? "bg-[#FFF0EA] text-[#F86624]"
-                          : productStatus[product.details.statusId]?.name ===
-                            "Out of Stock"
-                          ? "bg-[#FEECEE] text-[#EB3D4D]"
-                          : "bg-black text-white"
-                      }`}
-                    >
-                      {productStatus[product.details.statusId]?.name}
-                    </span>
-                  </td>
-                  <td className="px-6 py-[18px] border-b text-nowrap text-sm font-medium text-[#667085]">
-                    {new Date(product.details.addedDate).toLocaleDateString(
-                      "en-GB",
-                      {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      }
-                    )}
-                  </td>
+
+                  {columns
+                    .filter((col) => col.visible)
+                    .map((col) => (
+                      <td
+                        key={col.name}
+                        className={`px-6 py-[18px] border-b text-nowrap text-sm font-medium ${
+                          col.name === "SKU"
+                            ? "text-[#2086BF]"
+                            : "text-[#667085]"
+                        }`}
+                      >
+                        {(() => {
+                          switch (col.name) {
+                            case "SKU":
+                              return product.details.sku;
+                            case "Category":
+                              return categories[product.categoryId]?.name;
+                            case "Stock":
+                              return product.details.quantity;
+                            case "Price":
+                              return `$${product.details.basePrice.toFixed(2)}`;
+                            case "Status":
+                              return (
+                                <span
+                                  className={`px-2.5 py-1 rounded-lg ${
+                                    productStatus[product.details.statusId]
+                                      ?.name === "Published"
+                                      ? "bg-[#E9FAF7] text-[#1A9882]"
+                                      : productStatus[product.details.statusId]
+                                          ?.name === "Draft"
+                                      ? "bg-[#F0F1F3] text-[#667085]"
+                                      : productStatus[product.details.statusId]
+                                          ?.name === "Low Stock"
+                                      ? "bg-[#FFF0EA] text-[#F86624]"
+                                      : productStatus[product.details.statusId]
+                                          ?.name === "Out of Stock"
+                                      ? "bg-[#FEECEE] text-[#EB3D4D]"
+                                      : "bg-black text-white"
+                                  }`}
+                                >
+                                  {
+                                    productStatus[product.details.statusId]
+                                      ?.name
+                                  }
+                                </span>
+                              );
+                            case "Added":
+                              return new Date(
+                                product.details.addedDate
+                              ).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              });
+                            default:
+                              return null;
+                          }
+                        })()}
+                      </td>
+                    ))}
 
                   <td className="px-6 py-[18px] border-b text-nowrap">
                     <div className="flex justify-end gap-2">
