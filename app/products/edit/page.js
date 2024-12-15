@@ -217,7 +217,7 @@ export default function EditProduct() {
           </div>
         </div>
 
-        <div className="detail-page-content flex items-start flex-col-reverse md:flex-row gap-6 py-6">
+        <form className="detail-page-content flex items-start flex-col-reverse md:flex-row gap-6 py-6">
           <div className="editable-content flex-grow flex flex-col gap-6">
             {/* General Information */}
             <div className="bg-white shadow-shadow2 rounded-xl p-6 flex flex-col gap-3.5">
@@ -622,7 +622,7 @@ export default function EditProduct() {
               </label>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

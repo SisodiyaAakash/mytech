@@ -318,7 +318,7 @@ export default function Product() {
           product.details.sku || "",
           categories[product.categoryId]?.name || "",
           product.details.quantity || 0,
-          product.details.basePrice.toFixed(2) || 0,
+          product.details.basePrice || 0,
           productStatus[product.details.statusId]?.name || "",
           product.details.addedDate || "",
         ]),
@@ -785,7 +785,7 @@ export default function Product() {
                             case "Price":
                               return `$${
                                 product.details.basePrice
-                                  ? product.details.basePrice.toFixed(2)
+                                  ? product.details.basePrice
                                   : 0
                               }`;
                             case "Status":
@@ -967,7 +967,7 @@ export default function Product() {
                 </p>
                 <p>
                   <strong>Price:</strong> $
-                  {viewProduct.details.basePrice.toFixed(2)}
+                  {viewProduct.details.basePrice}
                 </p>
                 <p>
                   <strong>Status:</strong>{" "}
