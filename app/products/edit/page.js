@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function EditProduct() {
-  const [productData, setProductData] = useState(null);
+  const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
   const [productStatus, setProductStatus] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
@@ -37,21 +37,43 @@ export default function EditProduct() {
   const productId = searchParams.get("id");
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const res = await fetch("/json/products.json");
-        const data = await res.json();
+        let storedData = JSON.parse(localStorage.getItem("products"));
+        let categories = {};
+        let productStatus = {};
 
-        // Load categories and product statuses
-        setCategories(data.categories);
-        setProductStatus(data.productStatus);
+        // Fetch from JSON if localStorage doesn't exist
+        if (!storedData) {
+          const response = await fetch("/json/products.json");
+          const data = await response.json();
+          storedData = data.products;
+          categories = data.categories;
+          productStatus = data.productStatus;
 
-        // Determine mode (edit or add) and populate form data if editing
-        setIsEditMode(!!productId);
+          // Save fetched data into localStorage for consistency
+          localStorage.setItem("products", JSON.stringify(storedData));
+          localStorage.setItem("categories", JSON.stringify(data.categories));
+          localStorage.setItem(
+            "productStatus",
+            JSON.stringify(data.productStatus)
+          );
+        } else {
+          // Get categories and statuses from localStorage
+          categories = JSON.parse(localStorage.getItem("categories")) || {};
+          productStatus =
+            JSON.parse(localStorage.getItem("productStatus")) || {};
+        }
 
+        setProducts(storedData);
+        setCategories(categories);
+        setProductStatus(productStatus);
+
+        // If productId exists, populate the form
         if (productId) {
-          const product = data.products.find((item) => item.id === productId);
+          const product = storedData.find((item) => item.id === productId);
           if (product) {
+            setIsEditMode(true);
             setFormData({
               name: product.name,
               description: product.details.description || "",
@@ -64,13 +86,7 @@ export default function EditProduct() {
               discountPercentage: product.details.discount.percentage || 0,
               taxClass: product.details.taxClass || "Tax Free",
               vatAmount: product.details.vatAmount || 0,
-              shipping: {
-                weight: product.shipping.weight || "",
-                height: product.shipping.height || "",
-                length: product.shipping.length || "",
-                width: product.shipping.width || "",
-                isPhysicalProduct: product.shipping.isPhysicalProduct || false,
-              },
+              shipping: { ...product.shipping },
               variations: product.variations || [],
             });
           }
@@ -78,7 +94,7 @@ export default function EditProduct() {
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
-    }
+    };
 
     fetchData();
   }, [productId]);
@@ -103,11 +119,33 @@ export default function EditProduct() {
   };
 
   const handleSave = () => {
-    if (isEditMode) {
-      alert(`Updated product with ID: ${productId}`, formData);
-    } else {
-      alert("Created a new product:", formData);
-    }
+    const updatedProducts = isEditMode
+      ? products.map((product) =>
+          product.id === productId
+            ? {
+                ...product,
+                name: formData.name,
+                details: { ...product.details, ...formData },
+                categoryId: formData.categoryId,
+                shipping: { ...formData.shipping },
+                variations: formData.variations,
+              }
+            : product
+        )
+      : [
+          ...products,
+          {
+            id: `p${Math.floor(Math.random() * 10000)}`,
+            name: formData.name,
+            details: { ...formData },
+            categoryId: formData.categoryId,
+            shipping: { ...formData.shipping },
+            variations: formData.variations,
+          },
+        ];
+
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+    alert(isEditMode ? "Product updated successfully!" : "New product added!");
     router.push("/products");
   };
 

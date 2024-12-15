@@ -152,19 +152,63 @@ export default function Product() {
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("/json/products.json");
-        const data = await response.json();
-        setProducts(data.products);
-        setCategories(data.categories);
-        setProductStatus(data.productStatus);
-      } catch (error) {
-        console.error("Error fetching product data:", error);
+    const fetchData = () => {
+      const storedProducts = JSON.parse(localStorage.getItem("products"));
+      const storedCategories = JSON.parse(localStorage.getItem("categories"));
+      const storedProductStatus = JSON.parse(
+        localStorage.getItem("productStatus")
+      );
+
+      if (storedProducts && storedCategories && storedProductStatus) {
+        setProducts(storedProducts);
+        setCategories(storedCategories);
+        setProductStatus(storedProductStatus);
+
+        // Debugging logs
+        console.log("Products:", storedProducts);
+        console.log("Categories:", storedCategories);
+        console.log("Product Status:", storedProductStatus);
+      } else {
+        fetch("/json/products.json")
+          .then((res) => res.json())
+          .then((data) => {
+            setProducts(data.products);
+            setCategories(data.categories);
+            setProductStatus(data.productStatus);
+
+            // Store in localStorage for consistency
+            localStorage.setItem("products", JSON.stringify(data.products));
+            localStorage.setItem("categories", JSON.stringify(data.categories));
+            localStorage.setItem(
+              "productStatus",
+              JSON.stringify(data.productStatus)
+            );
+
+            // Debugging logs
+            console.log("Fetched Products:", data.products);
+            console.log("Fetched Categories:", data.categories);
+            console.log("Fetched Product Status:", data.productStatus);
+          })
+          .catch((error) => console.error("Error fetching products:", error));
       }
-    }
+    };
 
     fetchData();
+
+    const handleStorageChange = (event) => {
+      if (
+        event.key === "products" ||
+        event.key === "categories" ||
+        event.key === "productStatus"
+      ) {
+        fetchData();
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -270,13 +314,13 @@ export default function Product() {
       ...filteredProducts
         .filter((product) => selectedProducts.has(product.id))
         .map((product) => [
-          product.name,
-          product.details.sku,
+          product.name || "",
+          product.details.sku || "",
           categories[product.categoryId]?.name || "",
-          product.details.quantity,
-          product.details.basePrice.toFixed(2),
+          product.details.quantity || "",
+          product.details.basePrice.toFixed(2) || "",
           productStatus[product.details.statusId]?.name || "",
-          product.details.addedDate,
+          product.details.addedDate || "",
         ]),
     ];
     const csvContent =
@@ -728,13 +772,17 @@ export default function Product() {
                         {(() => {
                           switch (col.name) {
                             case "SKU":
-                              return product.details.sku;
+                              return product.details.sku || "";
                             case "Category":
-                              return categories[product.categoryId]?.name;
+                              return categories[product.categoryId]?.name || "";
                             case "Stock":
-                              return product.details.quantity;
+                              return product.details.quantity || "";
                             case "Price":
-                              return `$${product.details.basePrice.toFixed(2)}`;
+                              return `$${
+                                product.details.basePrice
+                                  ? product.details.basePrice.toFixed(2)
+                                  : ""
+                              }`;
                             case "Status":
                               return (
                                 <span
@@ -754,10 +802,8 @@ export default function Product() {
                                       : "bg-black text-white"
                                   }`}
                                 >
-                                  {
-                                    productStatus[product.details.statusId]
-                                      ?.name
-                                  }
+                                  {productStatus[product.details.statusId]
+                                    ?.name || ""}
                                 </span>
                               );
                             case "Added":
