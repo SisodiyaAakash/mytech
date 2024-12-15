@@ -34,30 +34,31 @@ function SortableItem({ id, name, visible, onToggleVisibility }) {
 
   return (
     <li
-      className="group flex items-center gap-2 text-[#667085] hover:text-black"
+      className={`group flex items-center gap-2 hover:text-black cursor-default ${
+        !visible ? "text-black" : "text-[#667085]"
+      }`}
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
     >
-      <Image
-        src="/icons/sort.svg"
-        className="group-hover:brightness-0 duration-500"
-        alt="Sort Icon"
-        width={16}
-        height={16}
-      />
-      <span>{name}</span>
       <button
-        className="group p-0 ml-auto bg-transparent border-0"
-        onClick={(e) => {
-          e.stopPropagation();
+        className="p-0 bg-transparent border-0 opacity-50 hover:opacity-100 duration-500 cursor-grab"
+        {...attributes}
+        {...listeners}
+      >
+        <Image src="/icons/sort.svg" alt="Sort Icon" width={16} height={16} />
+      </button>
+      <span className="pointer-events-none">{name}</span>
+      <button
+        className="p-0 ml-auto bg-transparent border-0"
+        onClick={() => {
           onToggleVisibility(name);
         }}
       >
         <Image
           src="/icons/hide.svg"
-          className="group-hover:brightness-0 duration-500"
+          className={`hover:opacity-100 duration-500 ${
+            !visible ? "opacity-100" : "opacity-35"
+          }`}
           alt="Hide Icon"
           width={16}
           height={16}
@@ -67,7 +68,7 @@ function SortableItem({ id, name, visible, onToggleVisibility }) {
   );
 }
 
-function EditColumn({ columns, setColumns }) {
+function EditColumn({ columns, setColumns, handleToggleColumn }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -107,13 +108,7 @@ function EditColumn({ columns, setColumns }) {
               id={col.name}
               name={col.name}
               visible={col.visible}
-              onToggleVisibility={(name) =>
-                setColumns((prevColumns) =>
-                  prevColumns.map((c) =>
-                    c.name === name ? { ...c, visible: !c.visible } : c
-                  )
-                )
-              }
+              onToggleVisibility={handleToggleColumn}
             />
           ))}
         </ul>
@@ -628,7 +623,7 @@ export default function Product() {
 
               <button
                 onClick={() => setEditColumnOpen(!isEditColumnOpen)}
-                className={`p-0 border-0 text-sm font-normal hover:text-black ${
+                className={`p-0 border-0 text-sm font-normal group-hover:text-black  ${
                   isEditColumnOpen ? "text-black" : "text-[#858D9D]"
                 }`}
               >
@@ -636,7 +631,11 @@ export default function Product() {
               </button>
               {isEditColumnOpen && (
                 <div className="min-w-full w-max edit-column-dropdown dropdown-menu absolute bg-white rounded-lg z-10 bottom-0 left-0 md:right-0 translate-y-full shadow-shadow2">
-                  <EditColumn columns={columns} setColumns={setColumns} />
+                  <EditColumn
+                    columns={columns}
+                    setColumns={setColumns}
+                    handleToggleColumn={handleToggleColumn}
+                  />
                 </div>
               )}
             </div>
